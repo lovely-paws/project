@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/">Home</a>
     <h1>Shelter #${shelter.id}: ${shelter.name}</h1>
     <p>${shelter.description}</p>
     <h2>Contact</h2>

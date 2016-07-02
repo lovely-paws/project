@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/">Home</a>
 <% if(request.getAttribute("shelters") != null) {
     List<Shelter> shelters = (List<Shelter>)request.getAttribute("shelters");
     for(Shelter shelter : shelters) {

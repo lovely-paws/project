@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/">Home</a>
     <spring:form action="login" method="POST">
         <div>
             <label>Username</label>

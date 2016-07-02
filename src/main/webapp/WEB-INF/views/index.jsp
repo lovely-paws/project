@@ -9,7 +9,7 @@
     <title>Title</title>
 </head>
 <body>
-
+    <a href="${pageContext.request.contextPath}/">Home</a>
     <% if(request.getSession().getAttribute("userId") == null) { %>
     <p>Would you like to <a href="shelter/register">Register as a Shelter</a>?</p>
         <p>Maybe you would like to <a href="session/login">login</a>?</p>
@@ -17,24 +17,5 @@
         <p>Why not create <a href="listing/create">a listing</a>?</p>
         <p>Maybe you would like to <a href="session/logout">logout</a>?</p>
     <% } %>
-<table>
-    <thead>
-    <tr>
-        <th>Attribute</th>
-        <th>Value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <%
-        Enumeration<String> attributeNames = request.getAttributeNames();
-        while(attributeNames.hasMoreElements()) {
-            String element = attributeNames.nextElement(); %>
-    <tr>
-        <td><%= HtmlUtils.htmlEscape(element) %></td>
-        <td><%= HtmlUtils.htmlEscape(request.getAttribute(element) == null ? "" : request.getAttribute(element).toString()) %></td>
-    </tr>
-    <% } %>
-    </tbody>
-</table>
 </body>
 </html>

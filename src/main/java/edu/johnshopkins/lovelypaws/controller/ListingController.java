@@ -10,6 +10,7 @@ import edu.johnshopkins.lovelypaws.entity.enums.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,5 +60,19 @@ public class ListingController {
     public ModelAndView viewAll(ModelMap modelMap) {
         modelMap.addAttribute("listings", listingDao.findAll());
         return new ModelAndView("/listing/view-all", modelMap);
+    }
+
+    @RequestMapping(path = "/view/{id}", method = RequestMethod.GET)
+    public ModelAndView view(ModelMap modelMap, @PathVariable Long id) {
+        if(id == null) {
+            return new ModelAndView("redirect:/listing/");
+        }
+
+        Listing listing = listingDao.findById(id);
+        modelMap.addAttribute("listing", listing);
+        if(listing == null) {
+            modelMap.addAttribute("message", "No matching listing.");
+        }
+        return new ModelAndView("/listing/view", modelMap);
     }
 }

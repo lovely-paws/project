@@ -4,6 +4,7 @@
     <title>Create Listing</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/">Home</a>
 <form action="../listing/create" method="POST">
     <div>
         <label name="name">Name</label>
@@ -16,10 +17,6 @@
     <div>
         <label name="color">Color (BLACK)</label>
         <input type="text" name="color" />
-    </div>
-    <div>
-        <label name="A">Description</label>
-        <input type="text" name="description" />
     </div>
     <input type="submit" value="Register" />
 

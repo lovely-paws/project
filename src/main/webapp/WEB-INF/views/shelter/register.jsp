@@ -4,6 +4,7 @@
     <title>Register as Shelter</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/">Home</a>
     <form action="create" method="POST">
         <div>
             <label name="username">Username</label>

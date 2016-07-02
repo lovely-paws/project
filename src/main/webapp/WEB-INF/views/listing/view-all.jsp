@@ -12,35 +12,18 @@
     <title>Title</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/">Home</a>
+<h1>Listings</h1>
+<ul>
 <% if(request.getAttribute("listings") != null) {
     List<Listing> listings = (List<Listing>)request.getAttribute("listings");
     for(Listing listing : listings) {
         request.setAttribute("listing", listing);
 %>
-<h1>${listing.id} ${listing.name}</h1>
-<p>${listing.description}</p>
-<p>${listing.color}</p>
+<li><a href="view/${listing.id}">${listing.id}</a>: ${listing.name} @ ${listing.shelter.name}</li>
 <% }
 }%>
+</ul>
 
-<table>
-    <thead>
-    <tr>
-        <th>Attribute</th>
-        <th>Value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <%
-        Enumeration<String> attributeNames = request.getAttributeNames();
-        while(attributeNames.hasMoreElements()) {
-            String element = attributeNames.nextElement(); %>
-    <tr>
-        <td><%= HtmlUtils.htmlEscape(element) %></td>
-        <td><%= HtmlUtils.htmlEscape(request.getAttribute(element) == null ? "" : request.getAttribute(element).toString()) %></td>
-    </tr>
-    <% } %>
-    </tbody>
-</table>
 </body>
 </html>
