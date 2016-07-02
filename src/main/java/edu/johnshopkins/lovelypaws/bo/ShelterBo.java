@@ -2,7 +2,9 @@ package edu.johnshopkins.lovelypaws.bo;
 
 import edu.johnshopkins.lovelypaws.entity.Address;
 import edu.johnshopkins.lovelypaws.entity.AnimalType;
+import edu.johnshopkins.lovelypaws.entity.Listing;
 import edu.johnshopkins.lovelypaws.entity.Shelter;
+import edu.johnshopkins.lovelypaws.entity.enums.Color;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ public interface ShelterBo {
 
     /** Retrieve an existing Shelter instance from the database by ID. */
     Shelter getShelter(long id);
+
+    void addListing(Shelter shelter, Listing listing);
 
     List<Shelter> getAllShelters();
 }

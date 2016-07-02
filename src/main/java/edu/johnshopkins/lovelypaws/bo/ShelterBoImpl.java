@@ -3,6 +3,7 @@ package edu.johnshopkins.lovelypaws.bo;
 import edu.johnshopkins.lovelypaws.dao.ShelterHibernateDao;
 import edu.johnshopkins.lovelypaws.entity.Address;
 import edu.johnshopkins.lovelypaws.entity.AnimalType;
+import edu.johnshopkins.lovelypaws.entity.Listing;
 import edu.johnshopkins.lovelypaws.entity.Shelter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,10 @@ public class ShelterBoImpl implements ShelterBo {
             shelter.getAnimalTypes().addAll(animalTypes);
         }
         return shelterDao.persist(shelter);
+    }
+
+    public void addListing(Shelter shelter, Listing listing) {
+        shelter.getListings().add(listing);
     }
 
     public Shelter getShelter(long id) { return shelterDao.findById(id); }

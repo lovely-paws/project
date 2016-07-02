@@ -45,7 +45,7 @@ public class ShelterController {
         address.setZip(map.get("zip"));
 
         // TODO: Error handling and animal types.
-        Shelter shelter = shelterBo.createShelter(map.get("name"),
+        Shelter shelter = shelterBo.createShelter(map.get("username"),
                 DigestUtils.sha512Hex(map.get("password")),
                 map.get("name"), map.get("description"), address,
                 map.get("phoneNumber"), new ArrayList<>());

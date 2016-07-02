@@ -11,6 +11,7 @@ public abstract class AbstractUser implements Serializable {
 
     @Id
     @GeneratedValue
+    @Column(name = "USER_ID")
     private long id;
     public long getId() { return id; }
 
@@ -23,6 +24,11 @@ public abstract class AbstractUser implements Serializable {
     protected String passwordSha512;
     public String getPasswordSha512() { return passwordSha512; }
     public void setPasswordSha512(String passwordSha512) { this.passwordSha512 = passwordSha512; }
+
+    @Column
+    protected String emailAddress;
+    public String getEmailAddress() { return emailAddress; }
+    public void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }
 
     public String toString() {
         return String.format("%s#<id=%d>", this.getClass().getSimpleName(), id);

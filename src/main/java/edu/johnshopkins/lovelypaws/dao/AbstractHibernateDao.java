@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class AbstractHibernateDao<T> implements Dao<T> {
 
     @PersistenceContext
-    private EntityManager sessionFactory;
+    protected EntityManager sessionFactory;
 
     private Class<T> clazz;
     public void setClazz(Class<T> clazz) { this.clazz = clazz; }
