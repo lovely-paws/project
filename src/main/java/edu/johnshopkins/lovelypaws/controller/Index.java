@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class Index {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView sayHello(ModelMap model) {
-        model.addAttribute("foo", "bar");
         return new ModelAndView("index");
     }
 }
