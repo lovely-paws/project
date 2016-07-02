@@ -17,7 +17,7 @@ public class Shelter extends AbstractUser {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     protected Address address;
     public Address getAddress() { return address; }
     public void setAddress(Address address) { this.address = address; }
@@ -28,7 +28,7 @@ public class Shelter extends AbstractUser {
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
     // One-way join.
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name="SHELTER_ANIMAL_TYPES", joinColumns = {@JoinColumn(name="SHELTER_ID", referencedColumnName = "SHELTER_ID")})
     protected List<AnimalType> animalTypes = new ArrayList<AnimalType>();
     public List<AnimalType> getAnimalTypes() { return animalTypes; }

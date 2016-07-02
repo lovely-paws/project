@@ -9,6 +9,16 @@
     <title>Title</title>
 </head>
 <body>
+    <% if(request.getAttribute("shelter") != null) { %>
+        <h1>${shelter.name}</h1>
+        <p>${shelter.description}</p>
+        <h2>Contact</h2>
+        <p>${shelter.address.line1}</p>
+        <p>${shelter.address.line2}</p>
+        <p>${shelter.address.city}, ${shelter.address.state} ${shelter.address.zip}</p>
+        <p>${shelter.phoneNumber}</p>
+        <h2>TODO: ANIMAL TYPES</h2>
+    <% } %>
 <table>
     <thead>
     <tr>

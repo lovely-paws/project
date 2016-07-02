@@ -9,6 +9,7 @@
     <title>Title</title>
 </head>
 <body>
+    <p>Would you like to <a href="shelter/register">Register as a Shelter</a>?</p>
 <table>
     <thead>
     <tr>

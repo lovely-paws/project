@@ -7,6 +7,7 @@ import edu.johnshopkins.lovelypaws.entity.Shelter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -31,4 +32,6 @@ public class ShelterBoImpl implements ShelterBo {
     }
 
     public Shelter getShelter(long id) { return shelterDao.findById(id); }
+
+    public List<Shelter> getAllShelters() { return new ArrayList<>(shelterDao.findAll()); }
 }

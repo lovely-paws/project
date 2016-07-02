@@ -14,4 +14,6 @@ public interface ShelterBo {
 
     /** Retrieve an existing Shelter instance from the database by ID. */
     Shelter getShelter(long id);
+
+    List<Shelter> getAllShelters();
 }
