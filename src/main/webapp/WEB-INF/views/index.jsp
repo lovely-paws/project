@@ -9,7 +9,14 @@
     <title>Title</title>
 </head>
 <body>
+
+    <% if(request.getSession().getAttribute("userId") == null) { %>
     <p>Would you like to <a href="shelter/register">Register as a Shelter</a>?</p>
+        <p>Maybe you would like to <a href="session/login">login</a>?</p>
+    <% } else { %>
+        <p>Why not create <a href="listing/create">a listing</a>?</p>
+        <p>Maybe you would like to <a href="session/logout">logout</a>?</p>
+    <% } %>
 <table>
     <thead>
     <tr>

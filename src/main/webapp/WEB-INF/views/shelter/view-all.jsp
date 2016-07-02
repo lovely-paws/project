@@ -16,35 +16,10 @@
     for(Shelter shelter : shelters) {
         request.setAttribute("shelter", shelter);
 %>
-<h1>${shelter.name}</h1>
+<h1>Shelter #${shelter.id}: ${shelter.name}</h1>
 <p>${shelter.description}</p>
-<h2>Contact</h2>
-<p>${shelter.address.line1}</p>
-<p>${shelter.address.line2}</p>
-<p>${shelter.address.city}, ${shelter.address.state} ${shelter.address.zip}</p>
-<p>${shelter.phoneNumber}</p>
-<h2>TODO: ANIMAL TYPES</h2>
+<a href="shelter/view/${shelter.id}">Detailed View</a>
 <% }
 }%>
-
-<table>
-    <thead>
-    <tr>
-        <th>Attribute</th>
-        <th>Value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <%
-        Enumeration<String> attributeNames = request.getAttributeNames();
-        while(attributeNames.hasMoreElements()) {
-            String element = attributeNames.nextElement(); %>
-    <tr>
-        <td><%= HtmlUtils.htmlEscape(element) %></td>
-        <td><%= HtmlUtils.htmlEscape(request.getAttribute(element) == null ? "" : request.getAttribute(element).toString()) %></td>
-    </tr>
-    <% } %>
-    </tbody>
-</table>
 </body>
 </html>

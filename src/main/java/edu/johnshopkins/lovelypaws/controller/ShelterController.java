@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
@@ -29,8 +30,13 @@ public class ShelterController {
     }
 
     @RequestMapping(path = {"/register"}, method = RequestMethod.GET)
-    public ModelAndView register() {
-        return new ModelAndView("shelter/register");
+    public ModelAndView register(HttpServletRequest httpServletRequest) {
+        if(httpServletRequest.getSession().getAttribute("userId") == null) {
+            return new ModelAndView("shelter/register");
+        } else {
+            // The user is already logged in. They can't re-register.
+            return new ModelAndView("/index");
+        }
     }
 
     // TODO: Remove GET support (and @PathVariable) - we don't want users mucking around with URLs.
