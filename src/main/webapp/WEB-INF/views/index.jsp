@@ -10,12 +10,20 @@
 </head>
 <body>
     <a href="${pageContext.request.contextPath}/">Home</a>
+
     <% if(request.getSession().getAttribute("userId") == null) { %>
-    <p>Would you like to <a href="shelter/register">Register as a Shelter</a>?</p>
-        <p>Maybe you would like to <a href="session/login">login</a>?</p>
+        <h1>You are not logged in.</h1>
+    <p>Would you like to <a href="${pageContext.request.contextPath}/user/register">Register as an End User</a>?</p>
+        <p>Would you like to <a href="${pageContext.request.contextPath}/shelter/register">Register as a Shelter</a>?</p>
+        <p>Maybe you would like to <a href="${pageContext.request.contextPath}/session/login">login</a>?</p>
+
     <% } else { %>
-        <p>Why not create <a href="listing/create">a listing</a>?</p>
-        <p>Maybe you would like to <a href="session/logout">logout</a>?</p>
+        <h1>You are logged in.</h1>
+        <p><a href="${pageContext.request.contextPath}/account">My Account</a> </p>
+        <p>Why not create <a href="${pageContext.request.contextPath}/listing/create">a listing</a>?</p>
+        <p>Maybe you would like to <a href="${pageContext.request.contextPath}/session/logout">logout</a>?</p>
     <% } %>
+
+    <p>Maybe you would like to VIEW <a href="${pageContext.request.contextPath}/listing">listings</a>?</p>
 </body>
 </html>

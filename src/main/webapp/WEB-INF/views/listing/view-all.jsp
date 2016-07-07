@@ -14,13 +14,21 @@
 <body>
 <a href="${pageContext.request.contextPath}/">Home</a>
 <h1>Listings</h1>
+<form action="" method="GET">
+    <ul>
+        <li><label>Shelter</label><input type="text" name="shelterId" /></li>
+        <li><label>Animal Type</label><input type="text" name="animalTypeId" /></li>
+        <li><label>Color</label><input type="text" name="color" /></li>
+        <li><input type="submit" /></li>
+    </ul>
+</form>
 <ul>
 <% if(request.getAttribute("listings") != null) {
     List<Listing> listings = (List<Listing>)request.getAttribute("listings");
     for(Listing listing : listings) {
         request.setAttribute("listing", listing);
 %>
-<li><a href="view/${listing.id}">${listing.id}</a>: ${listing.name} @ ${listing.shelter.name}</li>
+<li><a href="${pageContext.request.contextPath}/listing/view/${listing.id}">${listing.id}</a>: ${listing.name} @ ${listing.shelter.name}</li>
 <% }
 }%>
 </ul>

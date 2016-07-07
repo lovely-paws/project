@@ -13,17 +13,28 @@
 <body>
 <a href="${pageContext.request.contextPath}/">Home</a>
 <%= request.getAttribute("message") %>
-<% if(request.getAttribute("listing") != null) { %>
 <h1>Listing #${listing.id}: ${listing.name}</h1>
 <p>${listing.description}</p>
-<p>${listing.animalType}</p>
-<p>${listing.color}</p>
+<table>
+    <tr>
+        <td>Animal Type</td>
+        <td>${listing.animalType.name}</td>
+    </tr>
+    <tr>
+        <td>Color</td>
+        <td>${listing.color}</td>
+    </tr>
+</table>
+
 <h2>Contact</h2>
 <p>${listing.shelter.name}</p>
 <p>${listing.shelter.address.line1}</p>
 <p>${listing.shelter.address.line2}</p>
 <p>${listing.shelter.address.city}, ${listing.shelter.address.state} ${listing.shelter.address.zip}</p>
 <p>${listing.shelter.phoneNumber}</p>
+
+<% if(request.getAttribute("canAdopt") != null) { %>
+    <a href="${pageContext.request.contextPath}/cart/add?id=${listing.id}">Add to Cart</a>
 <% } %>
 </body>
 </html>

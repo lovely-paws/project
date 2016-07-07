@@ -1,5 +1,7 @@
 package edu.johnshopkins.lovelypaws.entity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +19,7 @@ public class AnimalType implements Serializable {
     @Column
     private String name;
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) { this.name = StringUtils.upperCase(StringUtils.trimToNull(name)); }
 
     @Column
     private String description;

@@ -1,5 +1,7 @@
 package edu.johnshopkins.lovelypaws.entity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ public abstract class AbstractUser implements Serializable {
     @Column
     protected String username;
     public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public void setUsername(String username) { this.username = StringUtils.upperCase(StringUtils.trimToNull(username)); }
 
     @Column
     protected String passwordSha512;
@@ -28,7 +30,7 @@ public abstract class AbstractUser implements Serializable {
     @Column
     protected String emailAddress;
     public String getEmailAddress() { return emailAddress; }
-    public void setEmailAddress(String emailAddress) { this.emailAddress = emailAddress; }
+    public void setEmailAddress(String emailAddress) { this.emailAddress = StringUtils.upperCase(StringUtils.trimToNull(emailAddress)); }
 
     public String toString() {
         return String.format("%s#<id=%d>", this.getClass().getSimpleName(), id);

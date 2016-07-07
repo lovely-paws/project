@@ -1,5 +1,7 @@
 package edu.johnshopkins.lovelypaws.entity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ public class Shelter extends AbstractUser {
     @Column
     protected String name;
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) { this.name = StringUtils.upperCase(StringUtils.trimToNull(name)); }
 
     @Column
     protected String description;
@@ -25,14 +27,7 @@ public class Shelter extends AbstractUser {
     @Column
     protected String phoneNumber;
     public String getPhoneNumber() { return phoneNumber; }
-    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
-
-    // One-way join.
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="SHELTER_ANIMAL_TYPES", joinColumns = {@JoinColumn(name="USER_ID", referencedColumnName = "USER_ID")})
-    protected List<AnimalType> animalTypes = new ArrayList<AnimalType>();
-    public List<AnimalType> getAnimalTypes() { return animalTypes; }
-    public void setAnimalTypes(List<AnimalType> animalTypes) { this.animalTypes = animalTypes; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = StringUtils.upperCase(StringUtils.trimToNull(phoneNumber)); }
 
     // One-way join.
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "shelter")

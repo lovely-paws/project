@@ -1,6 +1,6 @@
 package edu.johnshopkins.lovelypaws.entity;
 
-import edu.johnshopkins.lovelypaws.entity.enums.Color;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 
@@ -20,7 +20,7 @@ public class Listing {
     @Column
     protected String name;
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) { this.name = StringUtils.upperCase(StringUtils.trimToNull(name)); }
 
     @Column
     protected String description;
@@ -28,10 +28,9 @@ public class Listing {
     public void setDescription(String description) { this.description = description; }
 
     @Column
-    @Enumerated(EnumType.STRING) // Store as BROWN as opposed to 2.
-    protected Color color;
-    public Color getColor() { return color; }
-    public void setColor(Color color) { this.color = color; }
+    protected String color;
+    public String getColor() { return color; }
+    public void setColor(String color) { this.color = StringUtils.upperCase(StringUtils.trimToNull(color)); }
 
     @ManyToOne
     protected Shelter shelter;

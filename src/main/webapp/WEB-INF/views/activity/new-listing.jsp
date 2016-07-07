@@ -15,6 +15,10 @@
         <input type="text" name="description" />
     </div>
     <div>
+        <label>Animal Type</label>
+        <input type="text" name="animalType" />
+    </div>
+    <div>
         <label name="color">Color (BLACK)</label>
         <input type="text" name="color" />
     </div>
