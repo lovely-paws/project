@@ -4,7 +4,9 @@
     <title>Actions for Users</title>
 </head>
 <body>
-    <h1>Actions for End Users</h1>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
+<h1>Actions for End Users</h1>
     <ul>
         <li>Browse Shelters</li>
         <li>Browse Listings</li>

@@ -4,6 +4,9 @@
     <title>Create Listing</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
+
 <a href="${pageContext.request.contextPath}/">Home</a>
 <form action="../listing/create" method="POST">
     <div>

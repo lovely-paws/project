@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
 <a href="${pageContext.request.contextPath}/">Home</a>
 <%= request.getAttribute("message") %>
 <h1>Listing #${listing.id}: ${listing.name}</h1>

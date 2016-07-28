@@ -4,10 +4,12 @@
     <title>Actions for Administrators</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
 <h1>Actions for Administrators</h1>
-<ul>
-    <li>Browse Listings</li>
-    <li>Browse Shelters</li>
-</ul>
+    <ul>
+        <li>Browse Listings</li>
+        <li>Browse Shelters</li>
+    </ul>
 </body>
 </html>

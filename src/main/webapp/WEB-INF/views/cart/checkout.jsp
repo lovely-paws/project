@@ -6,6 +6,8 @@
     <title>Checkout</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
 <h1>Checking Out</h1>
 <p>
     Please complete the following adoption questionnaire. Your responses will be submitted

@@ -7,6 +7,8 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
 <h1>Pending Requests</h1>
 <%
     List<AdoptionRequest> adoptionRequests = (List<AdoptionRequest>)request.getAttribute("requests");

@@ -4,6 +4,8 @@
     <title>Register as Shelter</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
 <a href="${pageContext.request.contextPath}/">Home</a>
     <form action="create" method="POST">
         <div>

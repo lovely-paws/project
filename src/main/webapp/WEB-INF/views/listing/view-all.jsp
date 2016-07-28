@@ -11,7 +11,8 @@
     <title>Title</title>
 </head>
 <body>
-<a href="${pageContext.request.contextPath}/">Home</a>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
 <h1>Listings</h1>
 <spring:form action="#" method="GET" modelAttribute="listingSearch">
     <ul>

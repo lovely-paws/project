@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
 <a href="${pageContext.request.contextPath}/">Home</a>
     <h1>Shelter #${shelter.id}: ${shelter.name}</h1>
     <p>${shelter.description}</p>

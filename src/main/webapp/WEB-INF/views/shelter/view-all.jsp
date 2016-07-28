@@ -8,6 +8,8 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/header.jsp" />
+
 <a href="${pageContext.request.contextPath}/">Home</a>
 <% if(request.getAttribute("shelters") != null) {
     List<Shelter> shelters = (List<Shelter>)request.getAttribute("shelters");
