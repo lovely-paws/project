@@ -1,5 +1,6 @@
 package edu.johnshopkins.lovelypaws.dao;
 
+import edu.johnshopkins.lovelypaws.entity.AdoptionRequest;
 import edu.johnshopkins.lovelypaws.entity.Shelter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import java.util.List;
 public class ShelterHibernateDaoImpl extends AbstractHibernateDao<Shelter> implements ShelterHibernateDao {
 
     public ShelterHibernateDaoImpl() {
-        setClazz(Shelter.class);
+        clazz = (Shelter.class);
     }
 
     public Shelter findByName(String name) {
@@ -24,5 +25,11 @@ public class ShelterHibernateDaoImpl extends AbstractHibernateDao<Shelter> imple
                 .getResultList();
 
         return shelters.size() == 0 ? null : shelters.get(0);
+    }
+
+    public List<AdoptionRequest> getAdoptionRequests(long shelterId) {
+        return sessionFactory.createQuery("from "+AdoptionRequest.class.getSimpleName()+" where listing.shelter.id=:shelterId")
+                .setParameter("shelterId", shelterId)
+                .getResultList();
     }
 }

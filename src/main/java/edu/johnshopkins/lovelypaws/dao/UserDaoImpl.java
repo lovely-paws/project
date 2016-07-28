@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public class UserDaoImpl extends AbstractHibernateDao<AbstractUser> implements UserDao {
 
-    public UserDaoImpl() { setClazz(AbstractUser.class); }
+    public UserDaoImpl() { clazz = (AbstractUser.class); }
 
     public AbstractUser findByUsernameAndPasswordHash(String username, String passwordHash) {
         username = StringUtils.upperCase(StringUtils.trimToNull(username));

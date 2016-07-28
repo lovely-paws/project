@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public class AnimalTypeDaoImpl extends AbstractHibernateDao<AnimalType> implements AnimalTypeDao {
 
-    public AnimalTypeDaoImpl() { setClazz(AnimalType.class);}
+    public AnimalTypeDaoImpl() { clazz = (AnimalType.class);}
 
     public AnimalType findByName(String name) {
         name = StringUtils.upperCase(StringUtils.trimToNull(name));

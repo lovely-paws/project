@@ -76,7 +76,6 @@ public class Configuration extends WebMvcConfigurerAdapter {
 
     @Bean
     public DataSource dataSource() {
-
         // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         EmbeddedDatabase db = builder

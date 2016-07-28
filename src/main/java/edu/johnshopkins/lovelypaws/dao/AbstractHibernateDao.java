@@ -2,18 +2,17 @@ package edu.johnshopkins.lovelypaws.dao;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Collection;
 import java.util.List;
 
 public abstract class AbstractHibernateDao<T> implements Dao<T> {
+    protected Class<T> clazz;
 
     @PersistenceContext
     protected EntityManager sessionFactory;
-
-    private Class<T> clazz;
-    public void setClazz(Class<T> clazz) { this.clazz = clazz; }
 
     @Override
     @Transactional
@@ -29,6 +28,13 @@ public abstract class AbstractHibernateDao<T> implements Dao<T> {
     @Transactional
     public T persist(T object) {
         sessionFactory.persist(object);
+        return object;
+    }
+
+    @Override
+    @Transactional
+    public T merge(T object) {
+        sessionFactory.merge(object);
         return object;
     }
 

@@ -1,10 +1,14 @@
 package edu.johnshopkins.lovelypaws.controller;
 
-import edu.johnshopkins.lovelypaws.entity.Address;
-import edu.johnshopkins.lovelypaws.entity.Shelter;
+import edu.johnshopkins.lovelypaws.AdoptionRequestResult;
+import edu.johnshopkins.lovelypaws.beans.UserInfo;
+import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
+import edu.johnshopkins.lovelypaws.entity.*;
 import edu.johnshopkins.lovelypaws.bo.ShelterBo;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +19,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.function.Predicate;
 
 @Controller
 @RequestMapping("/shelter")
+@Scope("session")
 public class ShelterController {
 
     @Autowired
     private ShelterBo shelterBo;
+
+    @Autowired
+    private UserInfo userInfo;
+
+    @Autowired
+    private AdoptionRequestBo adoptionRequestBo;
 
     @RequestMapping(path = {"", "/"}, method = RequestMethod.GET)
     public ModelAndView viewAll(ModelMap modelMap) {
@@ -31,12 +43,26 @@ public class ShelterController {
 
     @RequestMapping(path = {"/register"}, method = RequestMethod.GET)
     public ModelAndView register(HttpServletRequest httpServletRequest) {
-        if(httpServletRequest.getSession().getAttribute("userId") == null) {
+        if(userInfo.getUser() == null) {
             return new ModelAndView("shelter/register");
         } else {
             // The user is already logged in. They can't re-register.
             return new ModelAndView("/index");
         }
+    }
+
+    @RequestMapping(path = "/requests")
+    public ModelAndView requests() {
+        Shelter shelter = shelterBo.getShelter(userInfo.getUser().getId());
+        Collection<AdoptionRequest> requests = shelterBo.getAdoptionRequests((Shelter)shelter);
+        requests.removeIf(new Predicate<AdoptionRequest>() {
+            @Override
+            public boolean test(AdoptionRequest adoptionRequest) {
+                return adoptionRequest.getAdoptionRequestResult() != AdoptionRequestResult.PENDING;
+            }
+        });
+        return new ModelAndView("shelter/requests")
+                .addObject("requests", requests);
     }
 
     // TODO: Remove GET support (and @PathVariable) - we don't want users mucking around with URLs.
@@ -64,5 +90,12 @@ public class ShelterController {
     public ModelAndView list(ModelMap modelMap, @PathVariable long id) {
         modelMap.put("shelter", shelterBo.getShelter(id));
         return new ModelAndView("shelter/view");
+    }
+
+    @RequestMapping(path = "/close/{id}")
+    public ModelAndView close(@PathVariable Long id, @RequestParam(name = "result") Boolean result) {
+        adoptionRequestBo.close(id, result);
+        return new ModelAndView("/index")
+                .addObject("message", "Closed!");
     }
 }

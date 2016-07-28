@@ -23,6 +23,7 @@ public class ListingBoImpl implements ListingBo {
         listing.setDescription(description);
         listing.setColor(color);
         listing.setShelter(shelter);
+        listing.setVisible(true);
         return listingDao.persist(listing);
     }
 }

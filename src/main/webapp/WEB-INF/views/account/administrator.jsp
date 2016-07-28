@@ -1,9 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Actions for Administrators</title>
 </head>
 <body>
 <h1>Actions for Administrators</h1>
+<ul>
+    <li>Browse Listings</li>
+    <li>Browse Shelters</li>
+</ul>
 </body>
 </html>

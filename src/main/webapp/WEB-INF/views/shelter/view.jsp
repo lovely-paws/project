@@ -19,7 +19,6 @@
     <p>${shelter.address.line2}</p>
     <p>${shelter.address.city}, ${shelter.address.state} ${shelter.address.zip}</p>
     <p>${shelter.phoneNumber}</p>
-    <h2>TODO: ANIMAL TYPES</h2>
     <h2>Listings</h2>
     <ul>
         <% for(Listing listing : ((Shelter)(request.getAttribute("shelter"))).getListings()) {

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AddressHibernateDaoImpl extends AbstractHibernateDao<Address> implements AddressHibernateDao {
     public AddressHibernateDaoImpl() {
-        setClazz(Address.class);
+        clazz = (Address.class);
     }
 }

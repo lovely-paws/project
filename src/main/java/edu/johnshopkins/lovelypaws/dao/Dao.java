@@ -8,5 +8,6 @@ import java.util.Collection;
 public interface Dao<T> {
     T findById(long id);
     T persist(T object);
+    T merge(T object);
     Collection<T> findAll();
 }
