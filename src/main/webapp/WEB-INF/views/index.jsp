@@ -1,9 +1,9 @@
-<%@ page import="static edu.johnshopkins.lovelypaws.LovelyPawsConstants.ATTRIBUTE_USER_ID" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
     <title>Lovely Paws Pet Adoption Site</title>
 </head>
 <body>

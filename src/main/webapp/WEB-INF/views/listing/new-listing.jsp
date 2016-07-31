@@ -1,32 +1,38 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Create Listing</title>
+    <title>Lovely Paws: Create A Listing</title>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/header.jsp" />
-
-
-<a href="${pageContext.request.contextPath}/">Home</a>
-<form action="../listing/create" method="POST">
-    <div>
-        <label name="name">Name</label>
-        <input type="text" name="name" />
-    </div>
-    <div>
-        <label name="description">Description</label>
-        <input type="text" name="description" />
-    </div>
-    <div>
-        <label>Animal Type</label>
-        <input type="text" name="animalType" />
-    </div>
-    <div>
-        <label name="color">Color (BLACK)</label>
-        <input type="text" name="color" />
-    </div>
-    <input type="submit" value="Register" />
-
-</form>
+    <jsp:include page="/WEB-INF/views/header.jsp" />
+    <spring:form action="#" method="POST" modelAttribute="createListingRequest">
+        <table>
+            <tr>
+                <td><spring:label path="name">Name</spring:label></td>
+                <td><spring:input path="name" cssClass="search-input" /></td>
+            </tr>
+            <tr>
+                <td><spring:label path="description">Description</spring:label></td>
+                <td><spring:textarea path="description" cssClass="search-textarea" /></td>
+            </tr>
+            <tr>
+                <td><spring:label path="animalTypeId">Animal Types</spring:label></td>
+                <td>
+                    <spring:select path="animalTypeId" cssClass="search-textarea">
+                        <spring:options itemValue="id" itemLabel="name" items="${animalTypes}" />
+                    </spring:select>
+                </td>
+            </tr>
+            <tr>
+                <td><spring:label path="color">Color</spring:label></td>
+                <td><spring:input path="color" cssClass="search-input" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Create Listing" /></td>
+            </tr>
+        </table>
+    </spring:form>
 </body>
 </html>

@@ -1,30 +1,35 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Register as User</title>
+    <title>Lovely Paws: Register as User</title>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
-
-    <a href="${pageContext.request.contextPath}/">Home</a>
-    <form action="create" method="POST">
-        <div>
-            <label name="username">Username</label>
-            <input type="text" name="username" />
-        </div>
-        <div>
-            <label name="password">Password</label>
-            <input type="password" name="passwordSha512" />
-        </div>
-        <div>
-            <label name="name">Name</label>
-            <input type="text" name="name" />
-        </div>
-        <div>
-            <label>E-Mail Address</label>
-            <input type="text" name="emailAddress" />
-        </div>
-        <input type="submit" value="Register" />
-    </form>
+    <h1>Register</h1>
+    <spring:form action="create" method="POST" modelAttribute="createUserRequest">
+        <table>
+            <tr>
+                <td><spring:label path="username">Username</spring:label></td>
+                <td><spring:input path="username" /></td>
+            </tr>
+            <tr>
+                <td><spring:label path="passwordSha512">Password</spring:label></td>
+                <td><spring:password path="passwordSha512" /></td>
+            </tr>
+            <tr>
+                <td><spring:label path="name">Name</spring:label></td>
+                <td><spring:input path="name" /></td>
+            </tr>
+            <tr>
+                <td><spring:label path="email">E-Mail Address</spring:label></td>
+                <td><spring:input path="email" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Register" /></td>
+            </tr>
+        </table>
+    </spring:form>
 </body>
 </html>

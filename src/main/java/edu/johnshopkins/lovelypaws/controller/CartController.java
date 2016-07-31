@@ -74,7 +74,7 @@ public class CartController {
         if(!(userInfo.getUser() instanceof EndUser)) {
             return new ModelAndView("redirect:/cart")
                     .addAllObjects(modelMap)
-                    .addObject("message", "You cannot checkout - you are not logged in or your accountt type does not support this operation.");
+                    .addObject("message", "You cannot checkout - you are not logged in or your account type does not support this operation.");
         } else if(cart.getIds().size() == 0) {
             return new ModelAndView("redirect:/cart")
                     .addAllObjects(modelMap)

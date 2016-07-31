@@ -1,22 +1,15 @@
 package edu.johnshopkins.lovelypaws.controller;
 
+import edu.johnshopkins.lovelypaws.beans.CreateUserRequest;
 import edu.johnshopkins.lovelypaws.beans.UserInfo;
 import edu.johnshopkins.lovelypaws.bo.EndUserBo;
-import edu.johnshopkins.lovelypaws.bo.UserBo;
-import edu.johnshopkins.lovelypaws.dao.UserDao;
-import edu.johnshopkins.lovelypaws.entity.AbstractUser;
 import edu.johnshopkins.lovelypaws.entity.EndUser;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/user")
@@ -30,24 +23,34 @@ public class EndUserController {
     private UserInfo userInfo;
 
     @RequestMapping(path = "/register")
-    public ModelAndView register(HttpServletRequest request, @ModelAttribute String userId, ModelMap modelMap) {
+    public ModelAndView register() {
         if(userInfo.getUser() == null) {
-            return new ModelAndView("/user/register");
+            return new ModelAndView("/user/register")
+                    .addObject("createUserRequest", new CreateUserRequest());
         } else {
-            request.setAttribute("message", "You cannot register as a user while logged in to the application.");
-            return new ModelAndView("/account", modelMap);
+            return new ModelAndView("/account")
+                    .addObject("message", "You cannot register as a user while logged in to the application.");
         }
     }
 
     @RequestMapping(path = "/create")
-    public ModelAndView createUser(HttpServletRequest request, @ModelAttribute String userId, @ModelAttribute EndUser endUser) {
-        if(StringUtils.isBlank(userId)) {
-            endUser = endUserBo.create(endUser);
-            userInfo.setUser(endUser);
-            request.setAttribute("message", "User created!");
-        } else {
-            request.setAttribute("message", "You cannot create an account while logged in to the application.");
+    public ModelAndView createUser(@ModelAttribute("createUserRequest")CreateUserRequest createUserRequest) {
+        if(userInfo.getUser() != null) {
+            return new ModelAndView("redirect:/index")
+                    .addObject("message", "You cannot register as a user while logged in to the application.");
         }
-        return new ModelAndView("redirect:/account");
+
+        try {
+            EndUser endUser = endUserBo.create(createUserRequest);
+            userInfo.setUser(endUser);
+            return new ModelAndView("/index")
+                    .addObject("message", "Account created!");
+        } catch(IllegalArgumentException illegalArgumentException) {
+            // The user provided a bad parameter. Kick them back
+            // and have them resubmit the form.
+            return new ModelAndView("/user/register")
+                    .addObject("createUserRequest", createUserRequest)
+                    .addObject("message", illegalArgumentException.getMessage());
+        }
     }
 }

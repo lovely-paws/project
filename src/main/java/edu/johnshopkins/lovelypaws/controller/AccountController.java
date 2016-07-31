@@ -21,23 +21,25 @@ public class AccountController {
     private UserInfo userInfo;
 
     @RequestMapping(path = {"/", ""})
-    public ModelAndView showAccount(HttpServletRequest request, ModelMap modelMap) {
+    public ModelAndView showAccount() {
         if(userInfo.getUser() == null) {
-            modelMap.addAttribute("message", "You are not logged in.");
-            return new ModelAndView("redirect:/login");
+            return new ModelAndView("redirect:/login")
+                    .addObject("message", "You are not logged in.");
         } else {
             User user = userInfo.getUser();
-            request.setAttribute("user", user);
             switch(user.getRole()) {
                 case ADMINISTRATOR:
-                    return new ModelAndView("/account/administrator");
+                    return new ModelAndView("/account/administrator")
+                            .addObject("user", user);
                 case END_USER:
-                    return new ModelAndView("/account/user");
+                    return new ModelAndView("/account/user")
+                            .addObject("user", user);
                 case SHELTER:
-                    request.setAttribute("shelter", userInfo.getUser());
-                    return new ModelAndView("/account/shelter");
+                    return new ModelAndView("/account/shelter")
+                            .addObject("user", user);
                 default:
-                    return new ModelAndView("redirect:/login");
+                    return new ModelAndView("redirect:/login")
+                            .addObject("message", "Unknown account type.");
             }
         }
     }

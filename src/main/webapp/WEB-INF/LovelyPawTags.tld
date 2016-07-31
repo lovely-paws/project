@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+    <description>My tag library</description>
+    <tlib-version>3.0</tlib-version>
+    <short-name>lp</short-name>
+    <uri>http://lovelypaws.com/tags.tld</uri>
+    <tag>
+        <name>userTag</name>
+        <tag-class>edu.johnshopkins.lovelypaws.tags.UserTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>user</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>edu.johnshopkins.lovelypaws.entity.User</type>
+        </attribute>
+        <attribute>
+            <name>role</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>edu.johnshopkins.lovelypaws.Role</type>
+        </attribute>
+    </tag>
+    <tag>
+        <name>listingTag</name>
+        <tag-class>edu.johnshopkins.lovelypaws.tags.ListingTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>listing</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>edu.johnshopkins.lovelypaws.entity.Listing</type>
+        </attribute>
+        <attribute>
+            <name>baseUrl</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+</taglib>

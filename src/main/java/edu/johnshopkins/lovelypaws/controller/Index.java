@@ -16,13 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class Index {
 
     @Autowired
-    private UserDao userDao;
-
-    @Autowired
     private UserInfo userInfo;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView sayHello(ModelMap modelMap) {
-        return new ModelAndView("index").addAllObjects(modelMap);
+    public ModelAndView view(ModelMap modelMap) {
+        return new ModelAndView("index")
+                .addObject("user", userInfo.getUser())
+                .addAllObjects(modelMap);
     }
 }

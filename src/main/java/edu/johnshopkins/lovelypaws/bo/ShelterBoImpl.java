@@ -1,5 +1,6 @@
 package edu.johnshopkins.lovelypaws.bo;
 
+import edu.johnshopkins.lovelypaws.beans.AddressData;
 import edu.johnshopkins.lovelypaws.dao.ShelterHibernateDao;
 import edu.johnshopkins.lovelypaws.entity.*;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -18,16 +19,25 @@ public class ShelterBoImpl implements ShelterBo {
     @Autowired
     private ShelterHibernateDao shelterDao;
 
-    public Shelter createShelter(String username, String passwordSha512, String name, String description, Address address, String phoneNumber, List<AnimalType> animalTypes) {
+    public Shelter createShelter(String username, String passwordSha512, String name, String description, AddressData addressData, String phoneNumber, String emailAddress,  List<AnimalType> animalTypes) {
         username = StringUtils.upperCase(StringUtils.trimToNull(username));
         if(username == null) {
             throw new IllegalArgumentException("username");
         }
 
         // TODO: Check inputs and throw exceptions or return errors as appropriate.
+
+        Address address = new Address();
+        address.setLine1(addressData.getLine1());
+        address.setLine2(addressData.getLine2());
+        address.setCity(addressData.getCity());
+        address.setState(addressData.getState());
+        address.setZip(addressData.getZip());
+
         Shelter shelter = new Shelter();
         shelter.setUsername(username);
         shelter.setPasswordSha512(passwordSha512);
+        shelter.setEmailAddress(emailAddress);
         shelter.setName(name);
         shelter.setDescription(description);
         shelter.setAddress(address);

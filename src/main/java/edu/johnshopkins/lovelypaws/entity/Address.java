@@ -41,5 +41,13 @@ public class Address implements Serializable {
     public String getZip() { return zip; }
     public void setZip(String zip) { this.zip = StringUtils.upperCase(StringUtils.trimToNull(zip)); }
 
-    public String toString() { return String.format("%s#<id=%d>", getClass().getSimpleName(), id); }
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(line1).append("\n");
+        if(line2 != null) {
+            stringBuilder.append(line2).append("\n");
+        }
+        stringBuilder.append(city).append(", ").append(state).append(" ").append(zip);
+        return stringBuilder.toString();
+    }
 }

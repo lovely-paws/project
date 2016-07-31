@@ -1,23 +1,19 @@
 package edu.johnshopkins.lovelypaws.controller;
 
 import edu.johnshopkins.lovelypaws.AdoptionRequestResult;
+import edu.johnshopkins.lovelypaws.beans.ShelterData;
 import edu.johnshopkins.lovelypaws.beans.UserInfo;
 import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
 import edu.johnshopkins.lovelypaws.entity.*;
 import edu.johnshopkins.lovelypaws.bo.ShelterBo;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -36,18 +32,19 @@ public class ShelterController {
     private AdoptionRequestBo adoptionRequestBo;
 
     @RequestMapping(path = {"", "/"}, method = RequestMethod.GET)
-    public ModelAndView viewAll(ModelMap modelMap) {
-        modelMap.put("shelters", shelterBo.getAllShelters());
-        return new ModelAndView("shelter/view-all");
+    public ModelAndView viewAll() {
+        return new ModelAndView("shelter/view-all")
+                .addObject("shelters", shelterBo.getAllShelters());
     }
 
     @RequestMapping(path = {"/register"}, method = RequestMethod.GET)
-    public ModelAndView register(HttpServletRequest httpServletRequest) {
+    public ModelAndView register() {
         if(userInfo.getUser() == null) {
-            return new ModelAndView("shelter/register");
+            return new ModelAndView("shelter/register")
+                    .addObject("shelterData", new ShelterData());
         } else {
-            // The user is already logged in. They can't re-register.
-            return new ModelAndView("/index");
+            return new ModelAndView("redirect:/")
+                    .addObject("message", "You must log out in order to register.");
         }
     }
 
@@ -65,25 +62,19 @@ public class ShelterController {
                 .addObject("requests", requests);
     }
 
-    // TODO: Remove GET support (and @PathVariable) - we don't want users mucking around with URLs.
-    @RequestMapping(path = "/create", method = {RequestMethod.GET, RequestMethod.POST} )
-    public ModelAndView createShelter(@PathVariable Map<String, String> pathVariables, @RequestParam Map<String, String> requestParams) {
-        Map<String, String> map = (requestParams.size() > 0) ? requestParams : pathVariables;
-        Address address = new Address();
-        address.setLine1(map.get("line1"));
-        address.setLine2(map.get("line2"));
-        address.setCity(map.get("city"));
-        address.setState(map.get("state"));
-        address.setZip(map.get("zip"));
-
-        // TODO: Error handling and animal types.
-        Shelter shelter = shelterBo.createShelter(map.get("username"),
-                DigestUtils.sha512Hex(map.get("password")),
-                map.get("name"), map.get("description"), address,
-                map.get("phoneNumber"), new ArrayList<>());
-
-        // Redirect to the mapping for /shelter/view/{id} using the new ID.
-        return new ModelAndView("redirect:/shelter/view/"+shelter.getId());
+    @RequestMapping(path = "/create")
+    public ModelAndView createShelter(@ModelAttribute("shelterData") ShelterData shelterData) {
+        try {
+            Shelter shelter = shelterBo.createShelter(shelterData.getUsername(),
+                    DigestUtils.sha512Hex(shelterData.getPasswordSha512()),
+                    shelterData.getName(), shelterData.getDescription(), shelterData.getAddressData(),
+                    shelterData.getPhoneNumber(), shelterData.getEmailAddress(), new ArrayList<>());
+            userInfo.setUser(shelter);
+            return new ModelAndView("redirect:/account");
+        } catch(Exception exception) {
+            return new ModelAndView("/shelter/register")
+                    .addObject("message", exception.getMessage());
+        }
     }
 
     @RequestMapping(path = "/view/{id}", method = RequestMethod.GET)

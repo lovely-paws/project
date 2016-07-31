@@ -1,6 +1,7 @@
 package edu.johnshopkins.lovelypaws.controller;
 
 import edu.johnshopkins.lovelypaws.Role;
+import edu.johnshopkins.lovelypaws.beans.CreateListingRequest;
 import edu.johnshopkins.lovelypaws.beans.ListingSearch;
 import edu.johnshopkins.lovelypaws.beans.UserInfo;
 import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
@@ -54,20 +55,22 @@ public class ListingController {
         if(userInfo.getUser() != null) {
             User user = userInfo.getUser();
             if(user.getRole() == Role.SHELTER) {
-                return new ModelAndView("/listing/new-listing");
+                return new ModelAndView("/listing/new-listing")
+                        .addObject("createListingRequest", new CreateListingRequest())
+                        .addObject("animalTypes", animalTypeDao.findAll());
             }
         }
         return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public ModelAndView executeCreate(HttpServletRequest httpServletRequest, @RequestParam Map<String, String> requestParams, ModelMap modelMap) {
+    public ModelAndView executeCreate(@ModelAttribute("createListingRequest") CreateListingRequest createListingRequest) {
         if(userInfo.getUser() != null) {
             Listing listing = listingBo.createListing((Shelter)(userInfo.getUser()),
-                    animalTypeDao.findByName(requestParams.get("animalType")),
-                    requestParams.get("name"),
-                    requestParams.get("description"),
-                    requestParams.get("color"));
+                    animalTypeDao.findById(createListingRequest.getAnimalTypeId()),
+                    createListingRequest.getName(),
+                    createListingRequest.getDescription(),
+                    createListingRequest.getColor());
         }
         return new ModelAndView("redirect:/listing/");
     }
