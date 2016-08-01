@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
@@ -34,17 +35,17 @@ public class EndUserController {
     }
 
     @RequestMapping(path = "/create")
-    public ModelAndView createUser(@ModelAttribute("createUserRequest")CreateUserRequest createUserRequest) {
+    public ModelAndView createUser(@ModelAttribute("createUserRequest")CreateUserRequest createUserRequest, RedirectAttributes redirectAttributes) {
         if(userInfo.getUser() != null) {
-            return new ModelAndView("redirect:/index")
-                    .addObject("message", "You cannot register as a user while logged in to the application.");
+            redirectAttributes.addFlashAttribute("message", "You cannot register as a user while logged in to the application.");
+            return new ModelAndView("redirect:/index");
         }
 
         try {
             EndUser endUser = endUserBo.create(createUserRequest);
             userInfo.setUser(endUser);
-            return new ModelAndView("/index")
-                    .addObject("message", "Account created!");
+            redirectAttributes.addFlashAttribute("message", "Account created!");
+            return new ModelAndView("redirect:/");
         } catch(IllegalArgumentException illegalArgumentException) {
             // The user provided a bad parameter. Kick them back
             // and have them resubmit the form.

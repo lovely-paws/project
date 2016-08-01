@@ -31,6 +31,7 @@
         <div class="nav-li-title">Our Pets</div>
         <ul class="nav-level-2">
             <li class="nav-li-2"><a href="${pageContext.request.contextPath}/listing">Search Pets</a></li>
+            <li class="nav-li-2"><a href="${pageContext.request.contextPath}/shelter">View Shelters</a></li>
         </ul>
     </li>
     <li class="nav-li-1">

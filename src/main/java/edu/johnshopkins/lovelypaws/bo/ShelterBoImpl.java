@@ -58,4 +58,16 @@ public class ShelterBoImpl implements ShelterBo {
     public List<AdoptionRequest> getAdoptionRequests(Shelter shelter) {
         return shelterDao.getAdoptionRequests(shelter.getId());
     }
+
+    @Transactional
+    public boolean setShelterApprovedStatus(long shelterId, boolean approvedStatus) {
+        Shelter shelter = shelterDao.findById(shelterId);
+        if(shelter != null) {
+            shelter.setApproved(approvedStatus);
+            shelterDao.merge(shelter);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

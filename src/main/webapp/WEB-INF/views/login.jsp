@@ -7,18 +7,22 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
-
-    <a href="${pageContext.request.contextPath}/">Home</a>
-        <form action="login" method="POST">
-            <div>
-                <label>Username</label>
-                <input type="text" name="username" />
-            </div>
-            <div>
-                <label>Password</label>
-                <input type="password" name="password" />
-            </div>
-            <input type="submit" />
-        </form>
-    </body>
+    <h1>Login</h1>
+    <p>Please log in using the form below.</p>
+    <spring:form action="login" method="POST" modelAttribute="loginData">
+        <table>
+            <tr>
+                <td>Username</td>
+                <td><spring:input path="username" /></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><spring:password path="password" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Login" /></td>
+            </tr>
+        </table>
+    </spring:form>
+</body>
 </html>

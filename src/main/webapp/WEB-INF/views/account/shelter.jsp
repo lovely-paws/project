@@ -7,6 +7,6 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
-    <lp:userTag user="${user}" />
+    <lp:userTag user="${user}" baseUrl="${pageContext.request.contextPath}" />
 </body>
 </html>

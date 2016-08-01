@@ -3,15 +3,10 @@
 <html>
 <head>
     <title>Lovely Paws: My Account</title>
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
-    <lp:userTag user="${userInfo.user}" />
-    <h1>Actions for End Users</h1>
-    <ul>
-        <li>Browse Shelters</li>
-        <li>Browse Listings</li>
-        <li><a href="${pageContext.request.contextPath}/cart">My Cart</a></li>
-    </ul>
+    <lp:userTag user="${userInfo.user}" baseUrl="${pageContext.request.contextPath}"  />
 </body>
 </html>

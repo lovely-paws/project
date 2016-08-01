@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,10 +22,10 @@ public class AccountController {
     private UserInfo userInfo;
 
     @RequestMapping(path = {"/", ""})
-    public ModelAndView showAccount() {
+    public ModelAndView showAccount(RedirectAttributes redirectAttributes) {
         if(userInfo.getUser() == null) {
-            return new ModelAndView("redirect:/login")
-                    .addObject("message", "You are not logged in.");
+            redirectAttributes.addFlashAttribute("message", "You are not logged in.");
+            return new ModelAndView("redirect:/login");
         } else {
             User user = userInfo.getUser();
             switch(user.getRole()) {
@@ -38,8 +39,8 @@ public class AccountController {
                     return new ModelAndView("/account/shelter")
                             .addObject("user", user);
                 default:
-                    return new ModelAndView("redirect:/login")
-                            .addObject("message", "Unknown account type.");
+                    redirectAttributes.addFlashAttribute("message", "Unknown account type.");
+                    return new ModelAndView("redirect:/login");
             }
         }
     }

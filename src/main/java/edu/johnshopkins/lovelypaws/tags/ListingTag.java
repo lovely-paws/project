@@ -1,5 +1,6 @@
 package edu.johnshopkins.lovelypaws.tags;
 
+import edu.johnshopkins.lovelypaws.Role;
 import edu.johnshopkins.lovelypaws.entity.*;
 
 import javax.servlet.jsp.JspTagException;
@@ -14,6 +15,12 @@ public class ListingTag extends SimpleTagSupport {
     private String baseUrl;
     public void setBaseUrl(String baseUrl){ this.baseUrl = baseUrl; }
 
+    private User actionsFor;
+    public void setActionsFor(User user) { this.actionsFor = user; }
+
+    private boolean detailed;
+    public void setDetailed(boolean detailed) { this.detailed = detailed; }
+
     public void doTag() throws JspTagException, IOException {
         StringBuilder sb = new StringBuilder();
         if(listing == null) {
@@ -21,14 +28,37 @@ public class ListingTag extends SimpleTagSupport {
             return;
         }
 
-        sb.append("<div class='listingInfo'>")
-                .append("<h3 class='listingInfo-label'><a href='")
-                .append(baseUrl).append("/listing/view/").append(listing.getId()).append("'>[")
-                .append(listing.getId()).append("] ").append(listing.getName()).append("</a></h3>");
-        sb.append("<h4 class='listingInfo-label'>Type</h4><p class='listingInfo-value'>").append(listing.getAnimalType()).append("</p>");
-        sb.append("<h4 class='listingInfo-label'>Color</h4><p class='listingInfo-value'>").append(listing.getColor()).append("</p>");
-        sb.append("<h4 class='listingInfo-label'>Description</h4><p class='listingInfo-value'>").append(listing.getDescription()).append("</p>");
-        sb.append("<h4 class='listingInfo-label'>Shelter</h4><p class='listingInfo-value'>").append(listing.getShelter().getName()).append("</p>");
+        sb.append("<div class='listingInfo'>");
+        sb.append("<h3>").append(listing.getName()).append("</h3>");
+        sb.append("<table>")
+                .append("<tr>")
+                    .append("<td>Type</td>")
+                    .append("<td>").append(listing.getAnimalType().getName()).append("</td>")
+                .append("</tr><tr>")
+                    .append("<td>Color</td>")
+                    .append("<td>").append(listing.getColor()).append("</td>")
+                .append("</tr><tr>")
+                    .append("<td>Description</td>")
+                    .append("<td>").append(listing.getDescription()).append("</td>")
+                .append("</tr><tr>")
+                    .append("<td>Shelter</td>")
+                    .append(String.format("<td><a href='%s/shelter/view/%d'>%s</td>",
+                            baseUrl, listing.getShelter().getId(), listing.getShelter().getName()))
+                .append("</tr>");
+
+        if(actionsFor != null) {
+            if(actionsFor.getRole() == Role.END_USER) {
+                sb.append(String.format("<tr><td colspan='2'><a href='%s/cart/add/%d'>Add to Cart</a></td></tr>",
+                        baseUrl, listing.getId()));
+            }
+        }
+
+        if(!detailed) {
+            sb.append(String.format("<tr><td colspan='2'><a href='%s/listing/view/%d'>View Listing</a></td></tr>",
+                    baseUrl, listing.getId()));
+        }
+
+        sb.append("</table>");
         sb.append("</div>");
         getJspContext().getOut().print(sb.toString());
     }

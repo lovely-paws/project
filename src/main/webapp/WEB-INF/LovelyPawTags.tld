@@ -21,6 +21,16 @@
             <rtexprvalue>true</rtexprvalue>
             <type>edu.johnshopkins.lovelypaws.Role</type>
         </attribute>
+        <attribute>
+            <name>baseUrl</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>detailed</name>
+            <type>java.lang.Boolean</type>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
     <tag>
         <name>listingTag</name>
@@ -35,6 +45,16 @@
             <name>baseUrl</name>
             <rtexprvalue>true</rtexprvalue>
             <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>actionsFor</name>
+            <type>edu.johnshopkins.lovelypaws.entity.User</type>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>detailed</name>
+            <type>java.lang.Boolean</type>
+            <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
 </taglib>

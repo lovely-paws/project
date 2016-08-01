@@ -1,3 +1,4 @@
+<%@ taglib prefix="lp" uri="http://lovelypaws.com/tags.tld" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -5,12 +6,7 @@
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/header.jsp" />
-
-<h1>Actions for Administrators</h1>
-    <ul>
-        <li>Browse Listings</li>
-        <li>Browse Shelters</li>
-    </ul>
+    <jsp:include page="/WEB-INF/views/header.jsp" />
+    <lp:userTag user="${userInfo.user}" baseUrl="${pageContext.request.contextPath}"  />
 </body>
 </html>

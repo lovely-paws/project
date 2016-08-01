@@ -18,6 +18,12 @@ public class UserTag extends SimpleTagSupport {
     private Role role;
     public void setRole(Role role){ this.role = role; }
 
+    private String baseUrl;
+    public void setBaseUrl(String baseUrl) { this.baseUrl = baseUrl; }
+
+    private boolean detailed;
+    public void setDetailed(boolean detailed) { this.detailed = detailed; }
+
     public void doTag() throws JspTagException, IOException {
         StringBuilder sb = new StringBuilder();
         if(user == null) {
@@ -31,21 +37,26 @@ public class UserTag extends SimpleTagSupport {
                 .append("</td></tr>");
         if(isShelter) {
             Shelter casted = (Shelter)user;
+            if(!detailed) {
+                sb.append(String.format("<tr><td class='userInfo-label'>Detailed View</td><td class='userInfo-value'><a href='%s/shelter/view/%d'>Click</a></td></tr>",
+                        baseUrl, casted.getId()));
+            }
             sb.append("<tr><td class='userInfo-label'>Business Name</td><td class='userInfo-value'>").append(casted.getName()).append("</td></tr>");
             sb.append("<tr><td class='userInfo-label'>Address</td><td class='userInfo-value'>").append(casted.getAddress()).append("</td></tr>");
             sb.append("<tr><td class='userInfo-label'>Description</td><td class='userInfo-value'>").append(casted.getDescription()).append("</td></tr>");
-            sb.append("<tr><td class='userInfo-label'>Phone Number</td><td class='userInfo-value'>").append(casted.getPhoneNumber()).append("</td></tr>");
-        }
+            sb.append("<tr><td class='userInfo-label'>Phone Number</td><td class='userInfo-value'>").append(casted.getPhoneNumber()).append("</td></tr>");}
         sb.append("<tr><td class='userInfo-label'>E-Mail Address</td><td class='userInfo-value'>").append(user.getEmailAddress()).append("</td></tr></table>");
         if(role != null) {
-            sb.append("<tr><td class='userInfo-label'>Actions</td><td class='userInfo-value'><ul><li>View Listings</li>");
             switch(role) {
                 case ADMINISTRATOR:
                     if(isShelter) {
+                        sb.append("<tr><td class='userInfo-label'>Actions</td><td class='userInfo-value'><ul>");
                         Shelter casted = (Shelter)user;
-                        if(!casted.isApproved()) {
-                            sb.append("<li>Approve</li>");
-                        }
+                        sb.append(String.format("<li><a href='%s/shelter/%s/%d'>%s</a></li>",
+                                baseUrl, casted.isApproved() ? "deny" : "approve", casted.getId(), casted.isApproved() ? "Disable New Listings" : "Enable New Listings"));
+                        sb.append(String.format("<li><a href='%s/shelter/requests/%d'>Review Adoption Requests</a></li>",
+                                baseUrl, casted.getId()));
+                        sb.append("</ul></td></tr>");
                     }
                     break;
                 case SHELTER:
@@ -55,8 +66,8 @@ public class UserTag extends SimpleTagSupport {
                 default:
                     break;
             }
-            sb.append("</ul></td></tr></table>");
         }
+        sb.append("</table>");
         sb.append("</div>");
         getJspContext().getOut().print(sb.toString());
     }

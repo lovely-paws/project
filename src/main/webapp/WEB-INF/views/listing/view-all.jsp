@@ -35,7 +35,7 @@
             request.setAttribute("listing", listing);
             if(!listing.isVisible()) { continue; }
     %>
-        <lp:listingTag listing="${listing}" baseUrl="${pageContext.request.contextPath}" />
+        <lp:listingTag listing="${listing}" baseUrl="${pageContext.request.contextPath}" detailed="false" />
     <% }
     } else { %>
 <p>No matches found!</p>

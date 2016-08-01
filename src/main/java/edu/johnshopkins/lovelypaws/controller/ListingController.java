@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -50,39 +51,58 @@ public class ListingController {
     @Autowired
     private AdoptionRequestBo adoptionRequestBo;
 
+    /** [SHELTERS] Directs shelters to the create-a-listing form; other users are redirected home. */
     @RequestMapping(path = "/create", method = RequestMethod.GET)
-    public ModelAndView create() {
-        if(userInfo.getUser() != null) {
-            User user = userInfo.getUser();
-            if(user.getRole() == Role.SHELTER) {
-                return new ModelAndView("/listing/new-listing")
-                        .addObject("createListingRequest", new CreateListingRequest())
-                        .addObject("animalTypes", animalTypeDao.findAll());
-            }
+    public ModelAndView create(RedirectAttributes redirectAttributes) {
+        if(userInfo.getUser() == null) {
+            redirectAttributes.addFlashAttribute("message", "You must be logged in to do that.");
+            return new ModelAndView("redirect:/");
+        } else if(userInfo.getUser().getRole() != Role.SHELTER) {
+            redirectAttributes.addFlashAttribute("message", "Your account is not permitted to perform that action.");
+            return new ModelAndView("redirect:/");
+        } else if(!((Shelter)userInfo.getUser()).isApproved()) {
+            redirectAttributes.addFlashAttribute("message", "Your account has not been approved to create listings.");
+            return new ModelAndView("redirect:/");
         }
-        return new ModelAndView("redirect:/");
+
+        return new ModelAndView("/listing/new-listing")
+                .addObject("createListingRequest", new CreateListingRequest())
+                .addObject("animalTypes", animalTypeDao.findAll());
     }
 
+    /** [SHELTERS] Attempts to create a listing using the information provided in the creation form. */
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public ModelAndView executeCreate(@ModelAttribute("createListingRequest") CreateListingRequest createListingRequest) {
-        if(userInfo.getUser() != null) {
-            Listing listing = listingBo.createListing((Shelter)(userInfo.getUser()),
-                    animalTypeDao.findById(createListingRequest.getAnimalTypeId()),
-                    createListingRequest.getName(),
-                    createListingRequest.getDescription(),
-                    createListingRequest.getColor());
+    public ModelAndView executeCreate(@ModelAttribute("createListingRequest") CreateListingRequest createListingRequest, RedirectAttributes redirectAttributes) {
+        if(userInfo.getUser() == null) {
+            redirectAttributes.addFlashAttribute("message", "You must be logged in to do that.");
+            return new ModelAndView("redirect:/");
+        } else if(userInfo.getUser().getRole() != Role.SHELTER) {
+            redirectAttributes.addFlashAttribute("message", "Your account is not permitted to perform that action.");
+            return new ModelAndView("redirect:/");
+        } else if(!((Shelter)userInfo.getUser()).isApproved()) {
+            redirectAttributes.addFlashAttribute("message", "Your account has not been approved to create listings.");
+            return new ModelAndView("redirect:/");
         }
-        return new ModelAndView("redirect:/listing/");
+
+        Listing listing = listingBo.createListing((Shelter)(userInfo.getUser()),
+                animalTypeDao.findById(createListingRequest.getAnimalTypeId()),
+                createListingRequest.getName(),
+                createListingRequest.getDescription(),
+                createListingRequest.getColor());
+
+        return new ModelAndView("redirect:/listing/view/"+listing.getId());
     }
 
+    /** [ALL USERS] Displays all of the listings matching the provided listing criteria. */
     @RequestMapping(path = {"", "/"}, method = RequestMethod.GET)
     public ModelAndView viewAll(@ModelAttribute(name = "listingSearch") ListingSearch listingSearch, ModelMap modelMap) {
         if(listingSearch == null) {
-            modelMap.put("listingSearch", new ListingSearch());
+            listingSearch = new ListingSearch();
         }
 
         modelMap.put("shelters", shelterDao.findAll());
         modelMap.put("animalTypes", animalTypeDao.findAll());
+        modelMap.put("listingSearch", listingSearch);
 
         List<Listing> matchedListings = new ArrayList<>();
         long animalTypeId, shelterId;
@@ -99,7 +119,7 @@ public class ListingController {
     }
 
     @RequestMapping(path = "/view/{id}", method = RequestMethod.GET)
-    public ModelAndView view(ModelMap modelMap, @SessionAttribute UserInfo userInfo, @PathVariable Long id) {
+    public ModelAndView view(@PathVariable Long id) {
         if(id == null) {
             return new ModelAndView("redirect:/listing/");
         }
@@ -109,11 +129,7 @@ public class ListingController {
             return new ModelAndView("redirect:/listing/");
         }
 
-        modelMap.put("listing", listing);
-        if(userInfo.getUser() != null && userInfo.getUser() instanceof EndUser) {
-            modelMap.put("canAdopt", true);
-        }
-
-        return new ModelAndView("/listing/view", modelMap);
+        return new ModelAndView("/listing/view")
+                .addObject("listing", listing);
     }
 }

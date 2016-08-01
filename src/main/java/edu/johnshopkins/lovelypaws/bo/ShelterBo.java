@@ -18,4 +18,6 @@ public interface ShelterBo {
 
     List<Shelter> getAllShelters();
     List<AdoptionRequest> getAdoptionRequests(Shelter shelter);
+
+    boolean setShelterApprovedStatus(long shelterId, boolean approvedStatus);
 }
