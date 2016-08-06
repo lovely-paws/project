@@ -2,6 +2,7 @@
 <%@ page import="edu.johnshopkins.lovelypaws.beans.UserInfo" %>
 <%@ page import="edu.johnshopkins.lovelypaws.entity.EndUser" %>
 <%@ page import="edu.johnshopkins.lovelypaws.entity.Shelter" %>
+<%@ page import="edu.johnshopkins.lovelypaws.Role" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     UserInfo userInfo = (UserInfo)(session.getAttribute("userInfo"));
@@ -18,6 +19,8 @@
                     <li class="nav-li-2"><a href="${pageContext.request.contextPath}/shelter/requests">Approve Requests</a></li>
                     <li class="nav-li-2"><a href="${pageContext.request.contextPath}/listing/create">Create Listing</a></li>
                     <li class="nav-li-2"><a href="${pageContext.request.contextPath}/listing/?shelterId=${userInfo.user.id}">View Listings</a></li>
+                <% } else if (userInfo.getUser().getRole() == Role.ADMINISTRATOR) { %>
+                     <li class="nav-li-2"><a href="${pageContext.request.contextPath}/animal-type/">Animal Types</a></li>
                 <% } %>
                 <li class="nav-li-2"><a href="${pageContext.request.contextPath}/logout">Log Out</a></li>
             <% } else { %>

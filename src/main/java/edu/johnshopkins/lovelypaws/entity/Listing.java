@@ -15,7 +15,7 @@ public class Listing {
     public long getId() { return id; }
 
     /** The one-directional join which associates an AnimalType (e.g., DOG) to this listing. */
-    @Column
+    @ManyToOne(fetch = FetchType.EAGER)
     protected AnimalType animalType;
     public AnimalType getAnimalType() { return animalType; }
     public void setAnimalType(AnimalType animalType) { this.animalType = animalType; }
