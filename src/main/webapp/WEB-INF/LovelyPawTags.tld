@@ -57,4 +57,19 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+    <tag>
+        <name>animalTypeTag</name>
+        <tag-class>edu.johnshopkins.lovelypaws.tags.AnimalTypeTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>animalType</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>edu.johnshopkins.lovelypaws.entity.AnimalType</type>
+        </attribute>
+        <attribute>
+            <name>baseUrl</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
 </taglib>
