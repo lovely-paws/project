@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ListingDao extends Dao<Listing> {
     List<Listing> findByIds(Collection<Long> ids);
+    void deleteById(long id);
 }

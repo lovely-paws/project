@@ -4,6 +4,7 @@ import edu.johnshopkins.lovelypaws.entity.AdoptionRequest;
 import edu.johnshopkins.lovelypaws.entity.Shelter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

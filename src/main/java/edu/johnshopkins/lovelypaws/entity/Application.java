@@ -16,4 +16,9 @@ public class Application {
     private String why;
     public String getWhy() { return why; }
     public void setWhy(String why) { this.why = why; }
+
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL)
+    private List<AdoptionRequest> adoptionRequests = new ArrayList<>();
+    public List<AdoptionRequest> getAdoptionRequests() { return adoptionRequests; }
+    public void setAdoptionRequests(List<AdoptionRequest> adoptionRequests) { this.adoptionRequests = adoptionRequests; }
 }

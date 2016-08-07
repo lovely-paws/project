@@ -4,9 +4,9 @@ import edu.johnshopkins.lovelypaws.Role;
 import edu.johnshopkins.lovelypaws.entity.*;
 
 import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
+import static java.lang.String.format;
 
 public class ListingTag extends SimpleTagSupport {
     private Listing listing;
@@ -15,8 +15,8 @@ public class ListingTag extends SimpleTagSupport {
     private String baseUrl;
     public void setBaseUrl(String baseUrl){ this.baseUrl = baseUrl; }
 
-    private User actionsFor;
-    public void setActionsFor(User user) { this.actionsFor = user; }
+    private User viewer;
+    public void setViewer(User viewer) { this.viewer = viewer; }
 
     private boolean detailed;
     public void setDetailed(boolean detailed) { this.detailed = detailed; }
@@ -24,41 +24,42 @@ public class ListingTag extends SimpleTagSupport {
     public void doTag() throws JspTagException, IOException {
         StringBuilder sb = new StringBuilder();
         if(listing == null) {
-            getJspContext().getOut().print("<b>NO LISTING PROVIDED!</b>");
+            getJspContext().getOut().print("<div class='warning'>Null listing provided.</div>");
             return;
         }
 
         sb.append("<div>");
-        sb.append("<h3>").append(listing.getName()).append("</h3>");
         sb.append("<table>")
-                .append("<tr>")
-                    .append("<td>Type</td>")
-                    .append("<td>").append(listing.getAnimalType().getName()).append("</td>")
-                .append("</tr><tr>")
-                    .append("<td>Color</td>")
-                    .append("<td>").append(listing.getColor()).append("</td>")
-                .append("</tr><tr>")
-                    .append("<td>Gender</td>")
-                    .append("<td>").append(listing.getGender()).append("</td>")
-                .append("</tr><tr>")
-                    .append("<td>Age</td>")
-                    .append("<td>").append(listing.getAge()).append("</td>")
-                .append("</tr><tr>")
-                    .append("<td>Description</td>")
-                    .append("<td>").append(listing.getDescription()).append("</td>")
-                .append("</tr><tr>")
-                    .append("<td>Shelter</td>")
-                    .append(String.format("<td><a href='%s/shelter/view/%d'>%s</td>",
-                            baseUrl, listing.getShelter().getId(), listing.getShelter().getName()))
-                .append("</tr>");
+                .append(format("<tr><td colspan='2'>[Listing #%d] %s</td></tr>", listing.getId(), listing.getName()))
+                .append(format("<tr><td>Type</td><td>%s</td></tr>", listing.getAnimalType().getName()))
+                .append(format("<tr><td>Color</td><td>%s</td></tr>", listing.getColor()))
+                .append(format("<tr><td>Gender</td><td>%s</td></tr>", listing.getGender()))
+                .append(format("<tr><td>Age</td><td>%s</td></tr>", listing.getAge()))
+                .append(format("<tr><td>Description</td><td>%s</td></tr>", listing.getDescription()))
+                .append(format("<tr><td>Shelter</td><td><a href='%s/shelter/view/%d'>%s</td></tr>",
+                            baseUrl, listing.getShelter().getId(), listing.getShelter().getName()));
 
-        if(actionsFor != null) {
-            if(actionsFor.getRole() == Role.END_USER) {
-                sb.append(String.format("<tr><td colspan='2'><a href='%s/cart/add/%d'>Add to Cart</a></td></tr>",
-                        baseUrl, listing.getId()));
-            } else if(actionsFor.getRole() == Role.ADMINISTRATOR || actionsFor.getId() == listing.getShelter().getId()) {
-                sb.append(String.format("<tr><td colspan='2'><a href='%s/listing/edit/%d'>Edit Listing</a></td></tr>",
-                        baseUrl, listing.getId()));
+        if(viewer != null && viewer.getRole() != null) {
+            switch(viewer.getRole()) {
+                case ADMINISTRATOR:
+                    sb.append(String.format("<tr><td colspan='2'><a href='%s/listing/edit/%d'>Edit Listing</a></td></tr>",
+                            baseUrl, listing.getId()));
+                    sb.append(String.format("<tr><td colspan='2'><a href='%s/listing/delete/%d'>Delete Listing</a></td></tr>",
+                            baseUrl, listing.getId()));
+                    break;
+                case SHELTER:
+                    if(viewer.getId() == listing.getShelter().getId()) {
+                        sb.append(String.format("<tr><td colspan='2'><a href='%s/listing/edit/%d'>Edit Listing</a></td></tr>",
+                                baseUrl, listing.getId()));
+                        sb.append(String.format("<tr><td colspan='2'><a href='%s/listing/delete/%d'>Delete Listing</a></td></tr>",
+                                baseUrl, listing.getId()));
+                    }
+                    break;
+                case END_USER: // Fall-through.
+                default:
+                    sb.append(String.format("<tr><td colspan='2'><a href='%s/cart/add/%d'>Add to Cart</a></td></tr>",
+                            baseUrl, listing.getId()));
+                    break;
             }
         }
 

@@ -17,7 +17,7 @@ public class AdoptionRequest {
     public EndUser getEndUser() { return endUser; }
     public void setEndUser(EndUser endUser) { this.endUser = endUser; }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Application.class)
     private Application application;
     public Application getApplication() { return application; }
     public void setApplication(Application application) { this.application = application; }

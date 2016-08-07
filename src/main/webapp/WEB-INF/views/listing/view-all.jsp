@@ -2,10 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="lp" uri="http://lovelypaws.com/tags.tld" %>
-<%@ page import="java.util.List" %>
-<%@ page import="edu.johnshopkins.lovelypaws.entity.Listing" %>
-<%@ page import="edu.johnshopkins.lovelypaws.entity.Shelter" %>
-<%@ page import="edu.johnshopkins.lovelypaws.entity.AnimalType" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -18,7 +14,7 @@
     <spring:form action="#" method="get" modelAttribute="listingSearch">
         <table>
             <tr>
-                <td><spring:label path="animalTypeId" >Animal Type:</spring:label></td>
+                <td><spring:label path="animalTypeId" >Animal Type</spring:label></td>
                 <td>
                     <spring:select path="animalTypeId">
                         <spring:option value="">Any Type</spring:option>
@@ -47,7 +43,7 @@
         </c:when>
         <c:otherwise>
             <c:forEach var="listing" items="${listings}">
-                <lp:listingTag listing="${listing}" baseUrl="${pageContext.request.contextPath}" detailed="false" />
+                <lp:listingTag listing="${listing}" baseUrl="${pageContext.request.contextPath}" viewer="${userInfo.user}" detailed="false" />
             </c:forEach>
         </c:otherwise>
     </c:choose>

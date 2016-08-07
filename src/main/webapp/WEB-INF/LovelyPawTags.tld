@@ -47,7 +47,7 @@
             <type>java.lang.String</type>
         </attribute>
         <attribute>
-            <name>actionsFor</name>
+            <name>viewer</name>
             <type>edu.johnshopkins.lovelypaws.entity.User</type>
             <rtexprvalue>true</rtexprvalue>
         </attribute>

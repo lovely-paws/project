@@ -9,14 +9,12 @@ import edu.johnshopkins.lovelypaws.beans.ServerResponse;
 import edu.johnshopkins.lovelypaws.beans.UserInfo;
 import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
 import edu.johnshopkins.lovelypaws.bo.ListingBo;
-import edu.johnshopkins.lovelypaws.dao.AnimalTypeDao;
-import edu.johnshopkins.lovelypaws.dao.ListingDao;
-import edu.johnshopkins.lovelypaws.dao.ShelterHibernateDao;
-import edu.johnshopkins.lovelypaws.dao.UserDao;
+import edu.johnshopkins.lovelypaws.dao.*;
 import edu.johnshopkins.lovelypaws.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,6 +49,9 @@ public class ListingController {
 
     @Autowired
     private AdoptionRequestBo adoptionRequestBo;
+
+    @Autowired
+    private AdoptionRequestDao adoptionRequestDao;
 
     /** [SHELTERS] Directs shelters to the create-a-listing form; other users are redirected home. */
     @RequestMapping(path = "/create", method = RequestMethod.GET)
@@ -148,27 +149,29 @@ public class ListingController {
 
     /** [ALL USERS] Displays all of the listings matching the provided listing criteria. */
     @RequestMapping(path = {"", "/"}, method = RequestMethod.GET)
-    public ModelAndView viewAll(@ModelAttribute(name = "listingSearch") ListingSearch listingSearch, ModelMap modelMap) {
+    public ModelAndView viewAll(@ModelAttribute(name = "listingSearch") ListingSearch listingSearch) {
         if(listingSearch == null) {
             listingSearch = new ListingSearch();
         }
 
-        modelMap.put("shelters", shelterDao.findAll());
-        modelMap.put("animalTypes", animalTypeDao.findAll());
-        modelMap.put("listingSearch", listingSearch);
-
         List<Listing> matchedListings = new ArrayList<>();
         long animalTypeId, shelterId;
+
         for(Listing listing : listingDao.findAll()) {
             animalTypeId = listing.getAnimalType().getId();
             shelterId = listing.getShelter().getId();
-            if((listingSearch.getShelterId() == null || listingSearch.getShelterId() == shelterId) &&
+            if(listing.isVisible() &&
+                    (listingSearch.getShelterId() == null || listingSearch.getShelterId() == shelterId) &&
                     (listingSearch.getAnimalTypeId() == null || listingSearch.getAnimalTypeId() == animalTypeId)) {
                 matchedListings.add(listing);
             }
         }
-        modelMap.addAttribute("listings", matchedListings);
-        return new ModelAndView("/listing/view-all", modelMap);
+
+        return new ModelAndView("/listing/view-all")
+            .addObject("shelters", shelterDao.findAll())
+            .addObject("animalTypes", animalTypeDao.findAll())
+            .addObject("listingSearch", listingSearch)
+            .addObject("listings", matchedListings);
     }
 
     @RequestMapping(path = "/view/{id}", method = RequestMethod.GET)
@@ -184,6 +187,24 @@ public class ListingController {
 
         return new ModelAndView("/listing/view")
                 .addObject("listing", listing);
+    }
+
+    @RequestMapping(path = "/delete/{id}")
+    @Transactional
+    public ModelAndView delete(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
+        Listing listing = listingDao.findById(id);
+        if(listing == null) {
+            redirectAttributes.addFlashAttribute("message", "No such listing exists.");
+            return new ModelAndView("redirect:/");
+        } else if(userInfo.getUser() == null // If you're not logged in, or you're neither an admin nor the owner...
+                || (userInfo.getUser().getRole() != Role.ADMINISTRATOR
+                    && listing.getShelter().getId() != userInfo.getUser().getId())) {
+            redirectAttributes.addFlashAttribute("message", "You are not authorized to do that.");
+            return new ModelAndView("redirect:/");
+        }
+
+        listingDao.deleteById(listing.getId());
+        return new ModelAndView("redirect:/listing");
     }
 }
 

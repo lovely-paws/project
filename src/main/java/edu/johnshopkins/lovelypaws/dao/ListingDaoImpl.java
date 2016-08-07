@@ -23,4 +23,16 @@ public class ListingDaoImpl extends AbstractHibernateDao<Listing> implements Lis
         return listings;
     }
 
+
+    @Transactional
+    public void deleteById(long id) {
+        sessionFactory.createQuery("delete from AdoptionRequest where listing.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+
+        sessionFactory.createQuery("delete from Listing where id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
 }

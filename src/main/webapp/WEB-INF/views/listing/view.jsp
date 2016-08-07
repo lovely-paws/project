@@ -9,6 +9,6 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
-    <lp:listingTag baseUrl="${pageContext.request.contextPath}" listing="${listing}" actionsFor="${userInfo.user}" detailed="true" />
+    <lp:listingTag baseUrl="${pageContext.request.contextPath}" listing="${listing}" viewer="${userInfo.user}" detailed="true" />
 </body>
 </html>
