@@ -7,44 +7,53 @@
 <%
     UserInfo userInfo = (UserInfo)(session.getAttribute("userInfo"));
 %>
-<ul id="navigation">
-    <li class="nav-li-1">
-        <div class="nav-li-title">My Account</div>
-        <ul class="nav-level-2">
-            <% if(userInfo.getUser() != null) { %>
-                <li class="nav-li-2"><a href="${pageContext.request.contextPath}/account/">My Account (${userInfo.user.username})</a></li>
-                <% if(userInfo.getUser() instanceof EndUser) { %>
-                    <li class="nav-li-2"><a href="${pageContext.request.contextPath}/cart">My Cart</a></li>
-                <% } else if(userInfo.getUser() instanceof Shelter) { %>
-                    <li class="nav-li-2"><a href="${pageContext.request.contextPath}/shelter/requests">Approve Requests</a></li>
-                    <li class="nav-li-2"><a href="${pageContext.request.contextPath}/listing/create">Create Listing</a></li>
-                    <li class="nav-li-2"><a href="${pageContext.request.contextPath}/listing/?shelterId=${userInfo.user.id}">View Listings</a></li>
-                <% } else if (userInfo.getUser().getRole() == Role.ADMINISTRATOR) { %>
-                     <li class="nav-li-2"><a href="${pageContext.request.contextPath}/animal-type/">Animal Types</a></li>
-                <% } %>
-                <li class="nav-li-2"><a href="${pageContext.request.contextPath}/logout">Log Out</a></li>
-            <% } else { %>
-                <li class="nav-li-2"><a href="${pageContext.request.contextPath}/shelter/register">Register as Shelter</a></li>
-                <li class="nav-li-2"><a href="${pageContext.request.contextPath}/user/register">Register as User</a></li>
-                <li class="nav-li-2"><a href="${pageContext.request.contextPath}/login">Log In</a></li>
-            <% } %>
-        </ul>
-    </li>
-    <li class="nav-li-1">
-        <div class="nav-li-title">Our Pets</div>
-        <ul class="nav-level-2">
-            <li class="nav-li-2"><a href="${pageContext.request.contextPath}/listing">Search Pets</a></li>
-            <li class="nav-li-2"><a href="${pageContext.request.contextPath}/shelter">View Shelters</a></li>
-        </ul>
-    </li>
-    <li class="nav-li-1">
-        <div class="nav-li-title">About Us</div>
-        <ul class="nav-level-2">
-            <li class="nav-li-2">Our History</li>
-            <li class="nav-li-2">Contact Us</li>
-        </ul>
-    </li>
-</ul>
+
+<div class="navigation">
+
+	<div class="dropdown">
+	  <button class="dropbtn" onclick="location.href='${pageContext.request.contextPath}/';">Home</button>
+	</div>
+	
+	<div class="dropdown">
+	  <button class="dropbtn">My Account</button>
+	  <div class="dropdown-content">
+			<% if(userInfo.getUser() != null) { %>
+	                <a href="${pageContext.request.contextPath}/account/">My Account (${userInfo.user.username})</a>
+	                <% if(userInfo.getUser() instanceof EndUser) { %>
+	                    <a href="${pageContext.request.contextPath}/cart">My Cart</a>
+	                <% } else if(userInfo.getUser() instanceof Shelter) { %>
+	                   <a href="${pageContext.request.contextPath}/shelter/requests">Approve Requests</a></li>
+	                    <a href="${pageContext.request.contextPath}/listing/create">Create Listing</a></li>
+	                    <a href="${pageContext.request.contextPath}/listing/?shelterId=${userInfo.user.id}">View Listings</a>
+	                <% } else if (userInfo.getUser().getRole() == Role.ADMINISTRATOR) { %>
+	                     <a href="${pageContext.request.contextPath}/animal-type/">Animal Types</a>
+	                <% } %>
+	                <a href="${pageContext.request.contextPath}/logout">Log Out</a>
+	            <% } else { %>
+	                <a href="${pageContext.request.contextPath}/shelter/register">Register as Shelter</a>
+	                <a href="${pageContext.request.contextPath}/user/register">Register as User</a>
+	                <a href="${pageContext.request.contextPath}/login">Log In</a>
+	            <% } %>
+	  </div>
+	</div>
+	
+	<div class="dropdown">
+	  <button class="dropbtn">Our Pets</button>
+	  <div class="dropdown-content">
+	            <a href="${pageContext.request.contextPath}/listing">Search Pets</a>
+	            <li class="nav-li-2"><a href="${pageContext.request.contextPath}/shelter">View Shelters</a>
+	  </div>
+	</div>
+	
+	 <div class="dropdown">
+	  <button class="dropbtn">Our Pets</button>
+	  <div class="dropdown-content">
+	            <a href="${pageContext.request.contextPath}/">Search Pets</a>
+	            <a href="${pageContext.request.contextPath}/">Contact Us</a>
+	  </div>
+	</div>
+ </div>
+ 
 <% if(request.getAttribute("message") != null) { %>
 <div class="message-dialog">Message: <c:out value="${message}" escapeXml="true"/></div>
 <% } %>
