@@ -9,7 +9,7 @@
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
     <h1>Edit Account</h1>
-    <spring:form cssClass="search-form" action="${pageContext.request.contextPath}/account/edit.do" modelAttribute="accountInfo">
+    <spring:form action="${pageContext.request.contextPath}/account/edit.do" modelAttribute="accountInfo">
         <table>
             <tr>
                 <td><spring:label path="id">ID</spring:label></td>

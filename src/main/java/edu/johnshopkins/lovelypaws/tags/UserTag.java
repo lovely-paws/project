@@ -34,32 +34,32 @@ public class UserTag extends SimpleTagSupport {
         boolean isShelter = user.getRole() == Role.SHELTER;
         boolean isEndUser = user.getRole() == Role.END_USER;
 
-        sb.append("<div class='userInfo'>\n")
+        sb.append("<div>\n")
                 .append("<table>\n")
                 .append(format("<tr><td colspan='2'>[%s #%d] %s</td></tr>\n", user.getRole(), user.getId(), user.getUsername()));
         if(isShelter) {
             Shelter casted = (Shelter)user;
             if(!detailed) {
-                sb.append(String.format("<tr><td class='userInfo-label'>Detailed View</td><td class='userInfo-value'><a href='%s/shelter/view/%d'>Click</a></td></tr>\n",
+                sb.append(String.format("<tr><td>Detailed View</td><td><a href='%s/shelter/view/%d'>Click</a></td></tr>\n",
                         baseUrl, casted.getId()));
             }
-            sb.append("<tr><td class='userInfo-label'>Business Name</td><td class='userInfo-value'>").append(casted.getName()).append("</td></tr>\n");
-            sb.append("<tr><td class='userInfo-label'>Address</td><td class='userInfo-value'>").append(casted.getAddress()).append("</td></tr>\n");
-            sb.append("<tr><td class='userInfo-label'>Description</td><td class='userInfo-value'>").append(casted.getDescription()).append("</td></tr>\n");
-            sb.append("<tr><td class='userInfo-label'>Phone Number</td><td class='userInfo-value'>").append(casted.getPhoneNumber()).append("</td></tr>\n");
+            sb.append("<tr><td>Business Name</td><td>").append(casted.getName()).append("</td></tr>\n");
+            sb.append("<tr><td>Address</td><td>").append(casted.getAddress()).append("</td></tr>\n");
+            sb.append("<tr><td>Description</td><td>").append(casted.getDescription()).append("</td></tr>\n");
+            sb.append("<tr><td>Phone Number</td><td>").append(casted.getPhoneNumber()).append("</td></tr>\n");
         } else if(isEndUser) {
             EndUser casted = (EndUser)user;
-            sb.append(String.format("<tr><td class='userInfo-label'>Name</td><td class='userInfo-value'>%s</td></tr>\n",
+            sb.append(String.format("<tr><td>Name</td><td>%s</td></tr>\n",
                     casted.getName()));
         }
-        sb.append("<tr><td class='userInfo-label'>E-Mail Address</td><td class='userInfo-value'>").append(user.getEmailAddress()).append("</td></tr>");
+        sb.append("<tr><td>E-Mail Address</td><td>").append(user.getEmailAddress()).append("</td></tr>");
         if(viewer != null) {
             switch(viewer.getRole()) {
                 case ADMINISTRATOR:
                     sb.append(String.format("<tr><td colspan='2'><a href='%s/user/delete/%d'>Delete User</a></td></tr>\n", baseUrl, user.getId()));
                     sb.append(String.format("<tr><td colspan='2'><a href='%s/user/edit/%d'>Edit User</a></td></tr>\n", baseUrl, user.getId()));
                     if(isShelter) {
-                        sb.append("<tr><td class='userInfo-label'>Actions</td><td class='userInfo-value'><ul>");
+                        sb.append("<tr><td>Actions</td><td><ul>");
                         Shelter casted = (Shelter)user;
                         sb.append(String.format("<li><a href='%s/shelter/%s/%d'>%s</a></li>",
                                 baseUrl, casted.isApproved() ? "deny" : "approve", casted.getId(), casted.isApproved() ? "Disable New Listings" : "Enable New Listings"));

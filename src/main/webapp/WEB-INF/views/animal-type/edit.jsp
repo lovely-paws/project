@@ -8,7 +8,7 @@
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
     <h1>Create an Animal Type</h1>
-    <spring:form cssClass="search-form" action="${pageContext.request.contextPath}/animal-type/edit.do" modelAttribute="animalTypeInfo">
+    <spring:form action="${pageContext.request.contextPath}/animal-type/edit.do" modelAttribute="animalTypeInfo">
         <table>
             <tr>
                 <td><spring:label path="id">ID</spring:label></td>

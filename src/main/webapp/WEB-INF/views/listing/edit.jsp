@@ -15,16 +15,16 @@
         </tr>
         <tr>
             <td><spring:label path="name">Name</spring:label></td>
-            <td><spring:input path="name" cssClass="search-input" /></td>
+            <td><spring:input path="name" /></td>
         </tr>
         <tr>
             <td><spring:label path="description">Description</spring:label></td>
-            <td><spring:textarea path="description" cssClass="search-textarea" /></td>
+            <td><spring:textarea path="description" /></td>
         </tr>
         <tr>
             <td><spring:label path="animalTypeId">Animal Types</spring:label></td>
             <td>
-                <spring:select path="animalTypeId" cssClass="search-textarea">
+                <spring:select path="animalTypeId">
                     <spring:options itemValue="id" itemLabel="name" items="${animalTypes}" />
                 </spring:select>
             </td>
@@ -32,7 +32,7 @@
         <tr>
             <td><spring:label path="gender">Gender</spring:label></td>
             <td>
-                <spring:select path="gender" cssClass="search-textarea">
+                <spring:select path="gender">
                     <spring:options itemValue="name" itemLabel="name" items="${genders}" />
                 </spring:select>
             </td>
@@ -40,14 +40,14 @@
         <tr>
             <td><spring:label path="age">Age</spring:label></td>
             <td>
-                <spring:select path="age" cssClass="search-textarea">
+                <spring:select path="age">
                     <spring:options itemValue="name" itemLabel="name" items="${ages}" />
                 </spring:select>
             </td>
         </tr>
         <tr>
             <td><spring:label path="color">Color</spring:label></td>
-            <td><spring:input path="color" cssClass="search-input" /></td>
+            <td><spring:input path="color" /></td>
         </tr>
         <tr>
             <td colspan="2"><input type="submit" value="Create Listing" /></td>

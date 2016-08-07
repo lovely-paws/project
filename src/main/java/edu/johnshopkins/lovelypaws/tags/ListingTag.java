@@ -28,7 +28,7 @@ public class ListingTag extends SimpleTagSupport {
             return;
         }
 
-        sb.append("<div class='listingInfo'>");
+        sb.append("<div>");
         sb.append("<h3>").append(listing.getName()).append("</h3>");
         sb.append("<table>")
                 .append("<tr>")
