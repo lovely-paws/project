@@ -1,8 +1,11 @@
 package edu.johnshopkins.lovelypaws.controller;
 
+import edu.johnshopkins.lovelypaws.Age;
+import edu.johnshopkins.lovelypaws.Gender;
 import edu.johnshopkins.lovelypaws.Role;
-import edu.johnshopkins.lovelypaws.beans.CreateListingRequest;
+import edu.johnshopkins.lovelypaws.beans.ListingInfo;
 import edu.johnshopkins.lovelypaws.beans.ListingSearch;
+import edu.johnshopkins.lovelypaws.beans.ServerResponse;
 import edu.johnshopkins.lovelypaws.beans.UserInfo;
 import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
 import edu.johnshopkins.lovelypaws.bo.ListingBo;
@@ -11,7 +14,6 @@ import edu.johnshopkins.lovelypaws.dao.ListingDao;
 import edu.johnshopkins.lovelypaws.dao.ShelterHibernateDao;
 import edu.johnshopkins.lovelypaws.dao.UserDao;
 import edu.johnshopkins.lovelypaws.entity.*;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -20,10 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/listing")
@@ -66,13 +67,15 @@ public class ListingController {
         }
 
         return new ModelAndView("/listing/new-listing")
-                .addObject("createListingRequest", new CreateListingRequest())
-                .addObject("animalTypes", animalTypeDao.findAll());
+                .addObject("listingInfo", new ListingInfo())
+                .addObject("animalTypes", animalTypeDao.findAll())
+                .addObject("ages", Arrays.asList(Age.values()))
+                .addObject("genders", Arrays.asList(Gender.values()));
     }
 
     /** [SHELTERS] Attempts to create a listing using the information provided in the creation form. */
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public ModelAndView executeCreate(@ModelAttribute("createListingRequest") CreateListingRequest createListingRequest, RedirectAttributes redirectAttributes) {
+    public ModelAndView executeCreate(ListingInfo listingInfo, RedirectAttributes redirectAttributes) {
         if(userInfo.getUser() == null) {
             redirectAttributes.addFlashAttribute("message", "You must be logged in to do that.");
             return new ModelAndView("redirect:/");
@@ -85,12 +88,62 @@ public class ListingController {
         }
 
         Listing listing = listingBo.createListing((Shelter)(userInfo.getUser()),
-                animalTypeDao.findById(createListingRequest.getAnimalTypeId()),
-                createListingRequest.getName(),
-                createListingRequest.getDescription(),
-                createListingRequest.getColor());
+                animalTypeDao.findById(listingInfo.getAnimalTypeId()),
+                listingInfo.getName(),
+                listingInfo.getDescription(),
+                listingInfo.getColor(),
+                listingInfo.getGender(),
+                listingInfo.getAge());
 
         return new ModelAndView("redirect:/listing/view/"+listing.getId());
+    }
+
+    @RequestMapping(path = "/edit/{id}")
+    public ModelAndView edit(@PathVariable(value = "id") long id, RedirectAttributes redirectAttributes) {
+        Listing listing = listingDao.findById(id);
+        if(userInfo.getUser() == null) {
+            redirectAttributes.addFlashAttribute("message", "You must be logged in to do that.");
+            return new ModelAndView("redirect:/");
+        } else if(listing == null) {
+            redirectAttributes.addFlashAttribute("message", "No such listing.");
+            return new ModelAndView("redirect:/");
+        } else if(listing.getShelter().getId() != userInfo.getUser().getId() && userInfo.getUser().getRole() != Role.ADMINISTRATOR) {
+            redirectAttributes.addFlashAttribute("message", "You must own the listing or be an administrator to edit it.");
+            return new ModelAndView("redirect:/");
+        }
+
+        return new ModelAndView("/listing/edit")
+                .addObject("listingInfo", new ListingInfo(listing))
+                .addObject("animalTypes", animalTypeDao.findAll())
+                .addObject("genders", Arrays.asList(Gender.values()))
+                .addObject("ages", Arrays.asList(Age.values()));
+    }
+
+    @RequestMapping(path = "/edit.do")
+    public ModelAndView doEdit(ListingInfo listingInfo, RedirectAttributes redirectAttributes) {
+        if(userInfo.getUser() == null) {
+            redirectAttributes.addFlashAttribute("message", "You must be logged in to do that.");
+            return new ModelAndView("redirect:/");
+        }
+
+        ServerResponse<Listing> response = listingBo.update(userInfo.getUser(), listingInfo);
+        if(response.isSuccess()) {
+            redirectAttributes.addFlashAttribute("message", "Listing updated!");
+            return new ModelAndView("redirect:/listing/");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Updated failed - "+response.getMessage());
+            if(listingInfo != null) {
+                return new ModelAndView("/listing/edit")
+                        .addObject("listingInfo", listingInfo)
+                        .addObject("message", "Failed to update - "+response.getMessage())
+                        .addObject("animalTypes", animalTypeDao.findAll())
+                        .addObject("genders", Arrays.asList(Gender.values()))
+                        .addObject("ages", Arrays.asList(Age.values()));
+            } else {
+                redirectAttributes.addFlashAttribute("message", "Empty response body.");
+                return new ModelAndView("redirect:/");
+            }
+        }
     }
 
     /** [ALL USERS] Displays all of the listings matching the provided listing criteria. */
@@ -133,3 +186,4 @@ public class ListingController {
                 .addObject("listing", listing);
     }
 }
+

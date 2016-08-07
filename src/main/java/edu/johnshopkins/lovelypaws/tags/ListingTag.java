@@ -38,6 +38,12 @@ public class ListingTag extends SimpleTagSupport {
                     .append("<td>Color</td>")
                     .append("<td>").append(listing.getColor()).append("</td>")
                 .append("</tr><tr>")
+                    .append("<td>Gender</td>")
+                    .append("<td>").append(listing.getGender()).append("</td>")
+                .append("</tr><tr>")
+                    .append("<td>Age</td>")
+                    .append("<td>").append(listing.getAge()).append("</td>")
+                .append("</tr><tr>")
                     .append("<td>Description</td>")
                     .append("<td>").append(listing.getDescription()).append("</td>")
                 .append("</tr><tr>")
@@ -49,6 +55,9 @@ public class ListingTag extends SimpleTagSupport {
         if(actionsFor != null) {
             if(actionsFor.getRole() == Role.END_USER) {
                 sb.append(String.format("<tr><td colspan='2'><a href='%s/cart/add/%d'>Add to Cart</a></td></tr>",
+                        baseUrl, listing.getId()));
+            } else if(actionsFor.getRole() == Role.ADMINISTRATOR || actionsFor.getId() == listing.getShelter().getId()) {
+                sb.append(String.format("<tr><td colspan='2'><a href='%s/listing/edit/%d'>Edit Listing</a></td></tr>",
                         baseUrl, listing.getId()));
             }
         }

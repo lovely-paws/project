@@ -7,7 +7,7 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
-    <spring:form action="#" method="POST" modelAttribute="createListingRequest">
+    <spring:form action="#" method="POST" modelAttribute="listingInfo">
         <table>
             <tr>
                 <td><spring:label path="name">Name</spring:label></td>
@@ -22,6 +22,22 @@
                 <td>
                     <spring:select path="animalTypeId" cssClass="search-textarea">
                         <spring:options itemValue="id" itemLabel="name" items="${animalTypes}" />
+                    </spring:select>
+                </td>
+            </tr>
+            <tr>
+                <td><spring:label path="gender">Gender</spring:label></td>
+                <td>
+                    <spring:select path="gender" cssClass="search-textarea">
+                        <spring:options itemValue="name" itemLabel="name" items="${genders}" />
+                    </spring:select>
+                </td>
+            </tr>
+            <tr>
+                <td><spring:label path="age">Gender</spring:label></td>
+                <td>
+                    <spring:select path="age" cssClass="search-textarea">
+                        <spring:options itemValue="name" itemLabel="name" items="${ages}" />
                     </spring:select>
                 </td>
             </tr>

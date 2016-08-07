@@ -1,5 +1,7 @@
 package edu.johnshopkins.lovelypaws.entity;
 
+import edu.johnshopkins.lovelypaws.Age;
+import edu.johnshopkins.lovelypaws.Gender;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -48,6 +50,16 @@ public class Listing {
     protected boolean visible;
     public boolean isVisible() { return visible; }
     public void setVisible(boolean visible) { this.visible = visible; }
+
+    @Column
+    protected Age age;
+    public Age getAge() { return age; }
+    public void setAge(Age age) { this.age = age; }
+
+    @Column
+    protected Gender gender;
+    public Gender getGender() { return gender; }
+    public void setGender(Gender gender) { this.gender = gender; }
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.ALL, targetEntity = AdoptionRequest.class)
     protected List<AdoptionRequest> adoptionRequests = new ArrayList<>();

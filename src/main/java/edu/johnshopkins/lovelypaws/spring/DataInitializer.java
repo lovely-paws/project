@@ -1,5 +1,7 @@
 package edu.johnshopkins.lovelypaws.spring;
 
+import edu.johnshopkins.lovelypaws.Age;
+import edu.johnshopkins.lovelypaws.Gender;
 import edu.johnshopkins.lovelypaws.beans.ApplicationInfo;
 import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
 import edu.johnshopkins.lovelypaws.dao.*;
@@ -120,6 +122,8 @@ public class DataInitializer {
         bowserListing.setName("BOWSER");
         bowserListing.setDescription("A dog that barks a lot.");
         bowserListing.setColor("Black");
+        bowserListing.setAge(Age.YOUNG);
+        bowserListing.setGender(Gender.MALE);
         listingDao.persist(bowserListing);
 
         Listing garfieldListing = new Listing();
@@ -129,6 +133,8 @@ public class DataInitializer {
         garfieldListing.setName("GARFIELD");
         garfieldListing.setDescription("A cat that likes lasagna but hates Mondays.");
         garfieldListing.setColor("ORANGE");
+        garfieldListing.setAge(Age.ADULT);
+        garfieldListing.setGender(Gender.MALE);
         listingDao.persist(garfieldListing);
 
         ApplicationInfo applicationInfo = new ApplicationInfo();
