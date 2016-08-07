@@ -20,7 +20,8 @@
                     <li class="nav-li-2"><a href="${pageContext.request.contextPath}/listing/create">Create Listing</a></li>
                     <li class="nav-li-2"><a href="${pageContext.request.contextPath}/listing/?shelterId=${userInfo.user.id}">View Listings</a></li>
                 <% } else if (userInfo.getUser().getRole() == Role.ADMINISTRATOR) { %>
-                     <li class="nav-li-2"><a href="${pageContext.request.contextPath}/animal-type/">Animal Types</a></li>
+                    <li class="nav-li-2"><a href="${pageContext.request.contextPath}/animal-type/">Manage Animal Types</a></li>
+                    <li class="nav-li-2"><a href="${pageContext.request.contextPath}/user/">Manage Users</a></li>
                 <% } %>
                 <li class="nav-li-2"><a href="${pageContext.request.contextPath}/logout">Log Out</a></li>
             <% } else { %>

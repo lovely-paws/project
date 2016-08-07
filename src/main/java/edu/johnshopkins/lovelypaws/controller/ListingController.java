@@ -66,7 +66,7 @@ public class ListingController {
             return new ModelAndView("redirect:/");
         }
 
-        return new ModelAndView("/listing/new-listing")
+        return new ModelAndView("/listing/new")
                 .addObject("listingInfo", new ListingInfo())
                 .addObject("animalTypes", animalTypeDao.findAll())
                 .addObject("ages", Arrays.asList(Age.values()))

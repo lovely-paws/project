@@ -22,7 +22,7 @@ public class AdoptionRequest {
     public Application getApplication() { return application; }
     public void setApplication(Application application) { this.application = application; }
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Listing.class, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Listing.class)
     private Listing listing;
     public Listing getListing() { return listing; }
     public void setListing(Listing listing) { this.listing = listing; }

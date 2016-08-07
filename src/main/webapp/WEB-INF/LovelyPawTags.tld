@@ -17,9 +17,9 @@
             <type>edu.johnshopkins.lovelypaws.entity.User</type>
         </attribute>
         <attribute>
-            <name>role</name>
+            <name>viewer</name>
             <rtexprvalue>true</rtexprvalue>
-            <type>edu.johnshopkins.lovelypaws.Role</type>
+            <type>edu.johnshopkins.lovelypaws.entity.User</type>
         </attribute>
         <attribute>
             <name>baseUrl</name>

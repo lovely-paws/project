@@ -19,7 +19,7 @@
         for(Shelter shelter : shelters) {
             request.setAttribute("shelter", shelter);
         %>
-            <lp:userTag user="${shelter}" role="${not empty userInfo.user ? userInfo.user.role : null}" baseUrl="${pageContext.request.contextPath}" />
+            <lp:userTag user="${shelter}" viewer="${userInfo.user}" baseUrl="${pageContext.request.contextPath}" />
         <% }
     } %>
 </body>

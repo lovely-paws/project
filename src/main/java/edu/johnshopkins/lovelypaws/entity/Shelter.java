@@ -42,7 +42,7 @@ public class Shelter extends AbstractUser {
 
     // One-way join.
     /** The one-directional join to the listings owned by this Shelter. */
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shelter")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shelter", cascade = CascadeType.ALL)
     protected List<Listing> listings = new ArrayList<Listing>();
     public List<Listing> getListings() { return listings; }
     public void setListings(List<Listing> listings) { this.listings = listings; }

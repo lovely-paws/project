@@ -40,6 +40,12 @@ public abstract class AbstractHibernateDao<T> implements Dao<T> {
 
     @Override
     @Transactional
+    public void delete(long id) {
+        sessionFactory.remove(findById(id));
+    }
+
+    @Override
+    @Transactional
     public Collection<T> findAll() {
         return sessionFactory.createQuery("from "+clazz.getName()).getResultList();
     }

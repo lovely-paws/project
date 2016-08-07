@@ -9,5 +9,6 @@ public interface Dao<T> {
     T findById(long id);
     T persist(T object);
     T merge(T object);
+    void delete(long id);
     Collection<T> findAll();
 }

@@ -43,6 +43,12 @@ public class AccountController {
         if(userInfo.getUser() == null) {
             redirectAttributes.addFlashAttribute("message", "You are not logged in.");
             return new ModelAndView("redirect:/");
+        } else if(accountInfo == null) {
+            redirectAttributes.addFlashAttribute("message", "Empty request received.");
+            return new ModelAndView("redirect:/");
+        } else if(userInfo.getUser().getRole() != Role.ADMINISTRATOR && userInfo.getUser().getId() != accountInfo.getId()) {
+            redirectAttributes.addFlashAttribute("message", "You are not authorized to do that.");
+            return new ModelAndView("redirect:/");
         }
 
         User user = userDao.findById(accountInfo.getId());
@@ -78,7 +84,7 @@ public class AccountController {
             }
         } else {
             redirectAttributes.addFlashAttribute("message", "Account updated!");
-            return new ModelAndView("redirect:/account");
+            return new ModelAndView("redirect:/");
         }
     }
 

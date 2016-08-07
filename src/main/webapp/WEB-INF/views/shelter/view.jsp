@@ -11,7 +11,7 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
-    <lp:userTag user="${shelter}"  baseUrl="${pageContext.request.contextPath}" role="${not empty userInfo.user ? userInfo.user.role : null}"/>
+    <lp:userTag user="${shelter}"  baseUrl="${pageContext.request.contextPath}" viewer="${userInfo.user}"/>
     <h2>Listings</h2>
     <ul>
         <% for(Listing listing : ((Shelter)(request.getAttribute("shelter"))).getListings()) {
