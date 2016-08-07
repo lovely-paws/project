@@ -1,6 +1,7 @@
 package edu.johnshopkins.lovelypaws.bo;
 
 import edu.johnshopkins.lovelypaws.beans.AddressData;
+import edu.johnshopkins.lovelypaws.beans.AddressInfo;
 import edu.johnshopkins.lovelypaws.dao.ShelterHibernateDao;
 import edu.johnshopkins.lovelypaws.entity.*;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -69,5 +70,26 @@ public class ShelterBoImpl implements ShelterBo {
         } else {
             return false;
         }
+    }
+
+    public boolean isValidDescription(String description) {
+        int length = StringUtils.upperCase(StringUtils.trimToEmpty(description)).length();
+        return 0 < length && length < 255;
+    }
+
+    public boolean isValidPhoneNumber(String phoneNumber) {
+        int length = StringUtils.upperCase(StringUtils.trimToEmpty(phoneNumber)).length();
+        return 0 < length && length < 32;
+    }
+
+    public boolean isValidAddressInfo(AddressInfo addressInfo) {
+        if(addressInfo == null) {
+            return false;
+        }
+
+        return StringUtils.length(addressInfo.getLine1()) > 0 &&
+                StringUtils.length(addressInfo.getCity()) > 0 &&
+                StringUtils.length(addressInfo.getState()) > 0 &&
+                StringUtils.length(addressInfo.getZip()) > 0;
     }
 }

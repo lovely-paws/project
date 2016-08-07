@@ -27,5 +27,5 @@
             </tr>
         </table>
     </spring:form>
-    </body>
+</body>
 </html>

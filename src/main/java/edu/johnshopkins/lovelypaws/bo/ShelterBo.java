@@ -1,6 +1,7 @@
 package edu.johnshopkins.lovelypaws.bo;
 
 import edu.johnshopkins.lovelypaws.beans.AddressData;
+import edu.johnshopkins.lovelypaws.beans.AddressInfo;
 import edu.johnshopkins.lovelypaws.entity.*;
 
 import java.util.List;
@@ -20,4 +21,8 @@ public interface ShelterBo {
     List<AdoptionRequest> getAdoptionRequests(Shelter shelter);
 
     boolean setShelterApprovedStatus(long shelterId, boolean approvedStatus);
+    boolean isValidDescription(String description);
+    boolean isValidPhoneNumber(String phoneNumber);
+    boolean isValidAddressInfo(AddressInfo addressInfo);
+
 }

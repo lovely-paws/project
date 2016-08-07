@@ -29,7 +29,9 @@ public class UserTag extends SimpleTagSupport {
         if(user == null) {
             return;
         }
-        boolean isShelter = user instanceof Shelter;
+        boolean isShelter = user.getRole() == Role.SHELTER;
+        boolean isEndUser = user.getRole() == Role.END_USER;
+
         sb.append("<div class='userInfo'>")
                 .append("<table>")
                 .append("<tr><td colspan='2'>")
@@ -44,7 +46,12 @@ public class UserTag extends SimpleTagSupport {
             sb.append("<tr><td class='userInfo-label'>Business Name</td><td class='userInfo-value'>").append(casted.getName()).append("</td></tr>");
             sb.append("<tr><td class='userInfo-label'>Address</td><td class='userInfo-value'>").append(casted.getAddress()).append("</td></tr>");
             sb.append("<tr><td class='userInfo-label'>Description</td><td class='userInfo-value'>").append(casted.getDescription()).append("</td></tr>");
-            sb.append("<tr><td class='userInfo-label'>Phone Number</td><td class='userInfo-value'>").append(casted.getPhoneNumber()).append("</td></tr>");}
+            sb.append("<tr><td class='userInfo-label'>Phone Number</td><td class='userInfo-value'>").append(casted.getPhoneNumber()).append("</td></tr>");
+        } else if(isEndUser) {
+            EndUser casted = (EndUser)user;
+            sb.append(String.format("<tr><td class='userInfo-label'>Name</td><td class='userInfo-value'>%s</td></tr>",
+                    casted.getName()));
+        }
         sb.append("<tr><td class='userInfo-label'>E-Mail Address</td><td class='userInfo-value'>").append(user.getEmailAddress()).append("</td></tr></table>");
         if(role != null) {
             switch(role) {
