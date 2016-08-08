@@ -148,8 +148,17 @@ public class ShelterController {
             redirectAttributes.addFlashAttribute("message", "A shelter with the provided ID does not exist.");
             return new ModelAndView("redirect:/");
         }
+
+        List<Listing> listings = new ArrayList<>();
+        for(Listing listing : shelter.getListings()) {
+            if(listing.isVisible()) {
+                listings.add(listing);
+            }
+        }
+
         return new ModelAndView("shelter/view")
-                .addObject("shelter", shelter);
+                .addObject("shelter", shelter)
+                .addObject("listings", listings);
     }
 
     /**

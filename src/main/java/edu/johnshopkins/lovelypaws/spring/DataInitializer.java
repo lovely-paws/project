@@ -145,9 +145,6 @@ public class DataInitializer {
 
         adoptionRequestBo.create(applicationInfo, endUser, new HashSet<>(Arrays.asList(bowserListing.getId())));
         adoptionRequestBo.create(applicationInfo2, endUser2, new HashSet<>(Arrays.asList(bowserListing.getId())));
-
-        userDao.delete(endUser.getId());
-//        adoptionRequestBo.close(adoptionRequestDao.findAll().iterator().next().getId(), true);
     }
 
     @Autowired

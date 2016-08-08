@@ -55,6 +55,6 @@
     </div>
 </div>
 
-<% if(request.getAttribute("message") != null) { %>
-<div class="message-dialog">Message: <c:out value="${message}" escapeXml="true"/></div>
-<% } %>
+<c:if test="${not empty message}">
+    <div class="notice"><c:out value="${message}" escapeXml="true" /></div>
+</c:if>

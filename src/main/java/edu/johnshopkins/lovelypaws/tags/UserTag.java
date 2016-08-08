@@ -5,6 +5,8 @@ import edu.johnshopkins.lovelypaws.entity.Administrator;
 import edu.johnshopkins.lovelypaws.entity.EndUser;
 import edu.johnshopkins.lovelypaws.entity.Shelter;
 import edu.johnshopkins.lovelypaws.entity.User;
+import org.apache.commons.lang3.StringUtils;
+
 import static java.lang.String.format;
 
 import javax.servlet.jsp.JspTagException;
@@ -36,7 +38,7 @@ public class UserTag extends SimpleTagSupport {
 
         sb.append("<div>\n")
                 .append("<table>\n")
-                .append(format("<tr><td colspan='2'>[%s #%d] %s</td></tr>\n", user.getRole(), user.getId(), user.getUsername()));
+                .append(format("<tr><td colspan='2'>[%s #%d] %s</td></tr>\n", StringUtils.capitalize(user.getRole().toString()), user.getId(), user.getUsername()));
         if(isShelter) {
             Shelter casted = (Shelter)user;
             if(!detailed) {
