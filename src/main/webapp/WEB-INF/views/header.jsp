@@ -42,7 +42,7 @@
         <button class="dropbtn">Our Pets</button>
         <div class="dropdown-content">
             <a href="${pageContext.request.contextPath}/listing">Search Pets</a>
-            <li class="nav-li-2"><a href="${pageContext.request.contextPath}/shelter">View Shelters</a>
+            <a href="${pageContext.request.contextPath}/shelter">View Shelters</a>
         </div>
     </div>
 
