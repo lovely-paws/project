@@ -42,9 +42,9 @@
 	                    <a href="${pageContext.request.contextPath}/listing/create">Create Listing</a>
 	                    <a href="${pageContext.request.contextPath}/listing/?shelterId=${userInfo.user.id}">View Listings</a>
 	                <% } else if (userInfo.getUser().getRole() == Role.ADMINISTRATOR) { %>
-	                     <a href="${pageContext.request.contextPath}/animal-type/view">Animal Types</a>
-	                     <a href="${pageContext.request.contextPath}/listing/">VIew Listings</a>
-	                     <a href="${pageContext.request.contextPath}/user/ }">Edit</a>
+	                     <a href="${pageContext.request.contextPath}/animal-type/">Animal Types</a>
+	                     <a href="${pageContext.request.contextPath}/listing/">View Listings</a>
+	                     <a href="${pageContext.request.contextPath}/user/">View Users</a>
 	                <% } %>
 	               </div>
 			</div>      
@@ -67,7 +67,7 @@
 	</div>
 	
 	<div class="logo">
-		<p>Lovely Paws</p>
+		Lovely Paws
 	</div>
 	
 	<div class="navigation">
@@ -80,16 +80,16 @@
 		<div class="dropdown">
 		  <button class="dropbtn">Our Pets</button>
 		  <div class="dropdown-content">
-		            <a href="${pageContext.request.contextPath}/listing">Search Pets</a>
-		            <li class="nav-li-2"><a href="${pageContext.request.contextPath}/shelter">View Shelters</a>
+		            <a href="${pageContext.request.contextPath}/listing/">Search Pets</a>
+		            <a href="${pageContext.request.contextPath}/shelter/">View Shelters</a>
 		  </div>
 		</div>
 		
 		 <div class="dropdown">
 		  <button class="dropbtn">About Us</button>
 		  <div class="dropdown-content">
-		            <a href="${pageContext.request.contextPath}/">About</a>
-		            <a href="${pageContext.request.contextPath}/contact">Contact Us</a>
+		            <a href="${pageContext.request.contextPath}/about">About</a>
+		            <a href="${pageContext.request.contextPath}/contact-us">Contact Us</a>
 		  </div>
 		</div>
 		</div>
@@ -98,5 +98,6 @@
 <% if(request.getAttribute("message") != null) { %>
 	<div class="message-dialog">Message: <c:out value="${message}" escapeXml="true"/></div>
 <% } %>
+<br>
 
 

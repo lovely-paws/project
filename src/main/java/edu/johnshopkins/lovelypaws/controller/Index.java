@@ -24,4 +24,14 @@ public class Index {
         return new ModelAndView("index")
                 .addObject("user", userInfo.getUser());
     }
+    
+    @RequestMapping("contact-us")
+    public ModelAndView contact(){
+    	return new ModelAndView("contact");
+    }
+    
+    @RequestMapping("about")
+    public ModelAndView about(){
+    	return new ModelAndView("about");
+    }
 }
