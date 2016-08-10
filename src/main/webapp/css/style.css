@@ -43,12 +43,28 @@ body {
     margin: 0 auto;
 }
 
+
+.banner{
+	width:100%;
+}
+
+.login{
+	width: 100%;
+	background-color: #ccc;
+}
+
+.logo{
+	background-color: #FFF;
+}
+
 .navigation{
     list-style-type:none;
     width: 100%;
     background-color: #ccc;
     margin: 0;
     padding: 0;
+    float: left;
+    justify-content: space-between;
 }
 
 .nav-li-1 {
@@ -80,15 +96,15 @@ body {
 .dropbtn {
     background-color: #ccc;
     color: white;
-    padding: 16px;
-    font-size: 16px;
+    padding: 3px;
+    font-size: 12px;
     border: none;
     cursor: pointer;
 }
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
-    position: relative;
+    /*position: relative;*/
     display: inline-block;
 }
 
@@ -97,14 +113,14 @@ body {
     display: none;
     position: absolute;
     background-color: #ccc;
-    min-width: 160px;
+    min-width: 110px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
     color: black;
-    padding: 12px 16px;
+    padding: 3px 3px;
     text-decoration: none;
     display: block;
 }
