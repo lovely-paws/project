@@ -8,7 +8,10 @@
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
-    <jsp:include page="/WEB-INF/views/header.jsp" />
-    <lp:listingTag baseUrl="${pageContext.request.contextPath}" listing="${listing}" viewer="${userInfo.user}" detailed="true" />
+    <div class="content">
+        <jsp:include page="/WEB-INF/views/header.jsp" />
+        <lp:listingTag baseUrl="${pageContext.request.contextPath}" listing="${listing}" viewer="${userInfo.user}" detailed="true" />
+        <jsp:include page="/WEB-INF/views/footer.jsp" />
+    </div>
 </body>
 </html>

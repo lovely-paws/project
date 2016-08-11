@@ -13,6 +13,8 @@ import edu.johnshopkins.lovelypaws.dao.*;
 import edu.johnshopkins.lovelypaws.entity.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.MediaType;
@@ -36,6 +38,7 @@ import java.util.List;
 @RequestMapping("/listing")
 @Scope("session")
 public class ListingController {
+    private static final Logger log = LoggerFactory.getLogger(ListingController.class);
 
     @Autowired
     private ListingBo listingBo;
@@ -102,7 +105,7 @@ public class ListingController {
                 FileUtils.copyInputStreamToFile(uploadedFile.getInputStream(), tmp);
                 listingInfo.setImageFile(tmp);
             } catch(IOException ioe) {
-                System.err.printf("Failed to upload file.%n%s", ioe);
+                log.error("Failed to upload file for this listing.", ioe);
             }
         }
 
@@ -214,7 +217,7 @@ public class ListingController {
         try {
             return FileUtils.readFileToByteArray(listingDao.findById(id).getImageFile());
         } catch(Exception exception) {
-            System.err.printf("Failed to serve image '%d' due to an exception.%n%s", id, exception);
+            log.error("Failed to serve image '{}' due to an exception.", exception);
             return null;
         }
     }

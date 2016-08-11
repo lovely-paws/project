@@ -98,7 +98,7 @@ public class Configuration extends WebMvcConfigurerAdapter {
         jpaProperties.put("hibernate.default_schema", "PUBLIC");
         jpaProperties.put("hibernate.hbm2ddl.auto", "create-drop");
         jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-        jpaProperties.put("hibernate.show_sql", true);
+        jpaProperties.put("hibernate.show_sql", false);
         factory.setJpaProperties(jpaProperties);
 
         factory.afterPropertiesSet();

@@ -1,7 +1,31 @@
-div.notice {
-    border: 2px solid #ccc;
-    background-color: #efefef;
-    margin: 1em 0;
+/*
+    PREFERRED COLORS
+    ================
+    Warnings: Yellows #ffff99 and #dddd75
+    Kuler (Monochromatic)
+    #004E7F, #4CBAFF, #009CFF, #58707F, #007DCC
+*/
+
+.message-dialog {
+    border: 1px solid #dddd75;
+    background-color: #ffff99;
+    padding: 0.25em;
+}
+
+.content-body {
+    background-color: #fff;
+padding: 1em;
+min-height: 30em;
+}
+
+.footer {
+padding: 0.5em;
+  text-align: center;
+font-weight: bolder;  
+color: #fff;
+/*  background-color: #004E7F;*/
+/* background-color: #58707F; */
+background-color: #007DCC;
 }
 
 table {
@@ -49,11 +73,7 @@ body {
     font-size: 1em;
     max-width: 80%;
     margin: 0 auto;
-
-    /* background-image: url('../img/paws.jpg');  */
-    /* background-repeat: no-repeat; */
-    /* background-position: center center; */
-    /* background-attachment: fixed;  */
+    background-color: #004E7F;
 }
 
 
@@ -65,7 +85,7 @@ body {
 
 .login{
     width: 100%;
-    background-color: #ccc;
+    background-color: #007DCC;
     padding: 0;
 }
 
@@ -77,11 +97,9 @@ body {
 .navigation{
     list-style-type:none;
     width: 100%;
-    background-color: #ccc;
+    background-color: #007DCC;
     margin: 0;
     padding: 0;
-    float: left;
-    /*justify-content: space-between;*/
 }
 
 .nav-li-1 {
@@ -111,7 +129,7 @@ body {
 /*From  http://www.w3schools.com/howto/howto_css_dropdown.asp */
 /* Dropdown Button */
 .dropbtn {
-    background-color: #ccc;
+    background-color: #007DCC;
     color: white;
     padding: 3px;
     font-size: 12px;
@@ -142,11 +160,16 @@ body {
     clear: both;
 }
 
+.no-height {
+    height: 0;
+}
+
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #ccc;
+    background-color: #007DCC;
+color: #fff;
     min-width: 110px;
     font-size: 12px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -154,14 +177,14 @@ body {
 
 /* Links inside the dropdown */
 .dropdown-content a {
-    color: black;
+    color: #fff;
     padding: 3px 3px;
     text-decoration: none;
     display: block;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #0052cc}
+.dropdown-content a:hover {background-color: #0052cc; color: #fff}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {

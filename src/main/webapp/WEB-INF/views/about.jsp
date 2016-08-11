@@ -7,16 +7,25 @@
     <title>Lovely Paws: About Us</title>
 </head>
 <body>
-    <jsp:include page="/WEB-INF/views/header.jsp" />
-    <h1>Welcome to Lovely Paws!</h1>
-    <p>
-        Lovely Paws strives to connect pets at shelters with new owners. The recipe is quite simple - shelters
-        list the pets, and potential owners can search these listings. When one or more matches are made,
-        the potential owner submits an application. Once approved by the shelter, the new owner
-        and shelter can meet to arrange payment and take the pet home.
-    </p>
-    <p>
-        <i><u>Something warm and heartbreaking should go here</u></i>
-    </p>
+    <div class="content">
+        <jsp:include page="/WEB-INF/views/header.jsp" />
+        <h1>Welcome to Lovely Paws!</h1>
+        <p>
+            Lovely Paws strives to connect pets at shelters with new owners. The recipe is quite simple - shelters
+            list the pets, and potential owners can search these listings. When one or more matches are made,
+            the potential owner submits an application. Once approved by the shelter, the new owner
+            and shelter can meet to arrange payment and take the pet home.
+        </p>
+        <h2>The Lovely Paws Team</h2>
+        <p>
+            Lovely Paws is brought to you by the following:
+        </p>
+        <ul>
+            <li>Matthew Bartenschlag</li>
+            <li>Leonard (Lenny) Calabrese</li>
+            <li>Goang Choi</li>
+        </ul>
+        <jsp:include page="/WEB-INF/views/footer.jsp" />
+    </div>
 </body>
 </html>

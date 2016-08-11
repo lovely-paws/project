@@ -11,10 +11,13 @@
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
-    <jsp:include page="/WEB-INF/views/header.jsp" />
-    <h1>Users</h1>
-    <c:forEach var="user" items="${users}">
-        <lp:userTag baseUrl="${pageContext.request.contextPath}" viewer="${userInfo.user}" user="${user}" />
-    </c:forEach>
+    <div class="content">
+        <jsp:include page="/WEB-INF/views/header.jsp" />
+        <h1>Users</h1>
+        <c:forEach var="user" items="${users}">
+            <lp:userTag baseUrl="${pageContext.request.contextPath}" viewer="${userInfo.user}" user="${user}" />
+        </c:forEach>
+        <jsp:include page="/WEB-INF/views/footer.jsp" />
+    </div>
 </body>
 </html>
