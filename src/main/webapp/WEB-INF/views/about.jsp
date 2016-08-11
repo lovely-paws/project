@@ -15,8 +15,14 @@
         the potential owner submits an application. Once approved by the shelter, the new owner
         and shelter can meet to arrange payment and take the pet home.
     </p>
+    <h2>The Lovely Paws Team</h2>
     <p>
-        <i><u>Something warm and heartbreaking should go here</u></i>
+        Lovely Paws is brought to you by the following:
     </p>
+    <ul>
+        <li>Matthew Bartenschlag</li>
+        <li>Leonard (Lenny) Calabrese</li>
+        <li>Goang Choi</li>
+    </ul>
 </body>
 </html>

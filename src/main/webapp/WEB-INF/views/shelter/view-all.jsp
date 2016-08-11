@@ -11,16 +11,17 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
-    <% List<Shelter> shelters = (List<Shelter>)request.getAttribute("shelters"); %>
     <h1>Browse Shelters</h1>
-    <% if(shelters == null || shelters.size() == 0) { %>
-        <p>No results!</p>
-    <% } else {
-        for(Shelter shelter : shelters) {
-            request.setAttribute("shelter", shelter);
-        %>
-            <lp:userTag user="${shelter}" viewer="${userInfo.user}" baseUrl="${pageContext.request.contextPath}" />
-        <% }
-    } %>
+    <p>The following shelters participate in the Lovely Paws network.</p>
+    <c:choose>
+        <c:when test="${empty shelters}">
+            <div class="warning">No shelters have registered with the network.</div>
+        </c:when>
+        <c:otherwise>
+            <c:forEach var="shelter" items="${shelters}">
+                <lp:userTag user="${shelter}" viewer="${userInfo.user}" baseUrl="${pageContext.request.contextPath}" />
+            </c:forEach>
+        </c:otherwise>
+    </c:choose>
 </body>
 </html>

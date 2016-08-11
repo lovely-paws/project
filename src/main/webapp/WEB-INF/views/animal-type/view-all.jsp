@@ -11,6 +11,7 @@
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
     <h1>View Animal Types</h1>
+    <p>The following animal types may be associated with new listings. You may create or edit these types.</p>
     <p><a href="${pageContext.request.contextPath}/animal-type/create">Create Animal Type</a></p>
     <c:choose>
         <c:when test="${empty animalTypes}">

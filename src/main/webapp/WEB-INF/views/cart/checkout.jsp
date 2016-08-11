@@ -1,4 +1,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="edu.johnshopkins.lovelypaws.entity.Listing" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -13,12 +14,13 @@
 <h1>Checking Out</h1>
 <p>
     Please complete the following adoption questionnaire. Your responses will be submitted
-    to the organization(s) currently housing the pet(s) you have selected.
+    to the organization(s) currently housing the pet(s) you have selected. The shelter
+    will contact you when they have received your application and made a determination.
 </p>
 <ul>
-<% for(Listing listing : (List<Listing>)request.getAttribute("listings")) { %>
-    <li><%= listing.getName() %></li>
-<% } %>
+    <c:forEach var="listing" items="${listings}">
+        <li>${listing.name}</li>
+    </c:forEach>
 </ul>
     <spring:form action="apply" method="POST" modelAttribute="applicationInfo">
         <table>

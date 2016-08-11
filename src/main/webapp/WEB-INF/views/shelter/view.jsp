@@ -10,6 +10,7 @@
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
     <h1>Shelter View</h1>
+    <p>This page displays detailed information about a specific shelter.</p>
     <lp:userTag user="${shelter}"  baseUrl="${pageContext.request.contextPath}" viewer="${userInfo.user}" detailed="true" />
 
     <h2>Listings</h2>
