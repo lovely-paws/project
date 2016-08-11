@@ -10,21 +10,24 @@
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
-    <jsp:include page="/WEB-INF/views/header.jsp" />
-    <h1>Pending Requests</h1>
-    <p>
-        Below you will find the pending adoption requests associated with your listings. Note that once you
-        accept the first request associated with a listing, all other listings will automatically be closed.
-    </p>
-    <c:choose>
-        <c:when test="${empty requests}">
-            <div class="warning">No requests pending!</div>
-        </c:when>
-        <c:otherwise>
-            <c:forEach var="request" items="${requests}">
-                <lp:adoptionRequestTag adoptionRequest="${request}" baseUrl="${pageContext.request.contextPath}" />
-            </c:forEach>
-        </c:otherwise>
-    </c:choose>
+    <div class="content">
+        <jsp:include page="/WEB-INF/views/header.jsp" />
+        <h1>Pending Requests</h1>
+        <p>
+            Below you will find the pending adoption requests associated with your listings. Note that once you
+            accept the first request associated with a listing, all other listings will automatically be closed.
+        </p>
+        <c:choose>
+            <c:when test="${empty requests}">
+                <div class="warning">No requests pending!</div>
+            </c:when>
+            <c:otherwise>
+                <c:forEach var="request" items="${requests}">
+                    <lp:adoptionRequestTag adoptionRequest="${request}" baseUrl="${pageContext.request.contextPath}" />
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+        <jsp:include page="/WEB-INF/views/footer.jsp" />
+    </div>
 </body>
 </html>

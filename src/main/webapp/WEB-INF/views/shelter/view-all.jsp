@@ -10,18 +10,21 @@
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
-    <jsp:include page="/WEB-INF/views/header.jsp" />
-    <h1>Browse Shelters</h1>
-    <p>The following shelters participate in the Lovely Paws network.</p>
-    <c:choose>
-        <c:when test="${empty shelters}">
-            <div class="warning">No shelters have registered with the network.</div>
-        </c:when>
-        <c:otherwise>
-            <c:forEach var="shelter" items="${shelters}">
-                <lp:userTag user="${shelter}" viewer="${userInfo.user}" baseUrl="${pageContext.request.contextPath}" />
-            </c:forEach>
-        </c:otherwise>
-    </c:choose>
+    <div class="content">
+        <jsp:include page="/WEB-INF/views/header.jsp" />
+        <h1>Browse Shelters</h1>
+        <p>The following shelters participate in the Lovely Paws network.</p>
+        <c:choose>
+            <c:when test="${empty shelters}">
+                <div class="warning">No shelters have registered with the network.</div>
+            </c:when>
+            <c:otherwise>
+                <c:forEach var="shelter" items="${shelters}">
+                    <lp:userTag user="${shelter}" viewer="${userInfo.user}" baseUrl="${pageContext.request.contextPath}" />
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+        <jsp:include page="/WEB-INF/views/footer.jsp" />
+    </div>
 </body>
 </html>

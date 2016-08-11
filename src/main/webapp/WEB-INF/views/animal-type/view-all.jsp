@@ -9,19 +9,22 @@
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
-    <jsp:include page="/WEB-INF/views/header.jsp" />
-    <h1>View Animal Types</h1>
-    <p>The following animal types may be associated with new listings. You may create or edit these types.</p>
-    <p><a href="${pageContext.request.contextPath}/animal-type/create">Create Animal Type</a></p>
-    <c:choose>
-        <c:when test="${empty animalTypes}">
-            <b>No known types!</b>
-        </c:when>
-        <c:otherwise>
-            <c:forEach var="animalType" items="${animalTypes}">
-                <lp:animalTypeTag animalType="${animalType}" baseUrl="${pageContext.request.contextPath}" />
-            </c:forEach>
-        </c:otherwise>
-    </c:choose>
+    <div class="content">
+        <jsp:include page="/WEB-INF/views/header.jsp" />
+        <h1>View Animal Types</h1>
+        <p>The following animal types may be associated with new listings. You may create or edit these types.</p>
+        <p><a href="${pageContext.request.contextPath}/animal-type/create">Create Animal Type</a></p>
+        <c:choose>
+            <c:when test="${empty animalTypes}">
+                <b>No known types!</b>
+            </c:when>
+            <c:otherwise>
+                <c:forEach var="animalType" items="${animalTypes}">
+                    <lp:animalTypeTag animalType="${animalType}" baseUrl="${pageContext.request.contextPath}" />
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+        <jsp:include page="/WEB-INF/views/footer.jsp" />
+    </div>
 </body>
 </html>

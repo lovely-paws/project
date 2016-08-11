@@ -1,12 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="edu.johnshopkins.lovelypaws.beans.UserInfo" %>
-<%@ page import="edu.johnshopkins.lovelypaws.entity.EndUser" %>
-<%@ page import="edu.johnshopkins.lovelypaws.entity.Shelter" %>
-<%@ page import="edu.johnshopkins.lovelypaws.Role" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    UserInfo userInfo = (UserInfo)(session.getAttribute("userInfo"));
-%>
 <div class="banner">
 	<div class="login" align="right">
 		<c:choose>
@@ -49,39 +42,36 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-	
-	<div class="logo">
-		<img src="${pageContext.request.contextPath}/img/logo.png" />
-	</div>
-	
-	<div class="navigation">
-		<div class="dropdown">
-		  <button class="dropbtn" onclick="location.href='${pageContext.request.contextPath}/';">Home</button>
-		</div>
-		
 
-		
+    <div class="logo">
+        <img src="${pageContext.request.contextPath}/img/logo.png" />
+    </div>
+
+    <div class="navigation">
+        <div class="dropdown">
+            <button class="dropbtn" onclick="location.href='${pageContext.request.contextPath}/';">Home</button>
+        </div>
 		<div class="dropdown">
-		  <button class="dropbtn">Our Pets</button>
-		  <div class="dropdown-content">
-		            <a href="${pageContext.request.contextPath}/listing/">Search Pets</a>
-		            <a href="${pageContext.request.contextPath}/shelter/">View Shelters</a>
-		  </div>
-		</div>
-		
-		 <div class="dropdown">
-		  <button class="dropbtn">About Us</button>
-		  <div class="dropdown-content">
-		            <a href="${pageContext.request.contextPath}/about">About</a>
-		            <a href="${pageContext.request.contextPath}/contact-us">Contact Us</a>
-		  </div>
-		</div>
-		</div>
- </div>
- 
-<c:if test="${not empty message}">
-    <div class="message-dialog">Message: <c:out value="${message}" escapeXml="true"/></div>
-</c:if>
-<br>
+            <button class="dropbtn">Our Pets</button>
+            <div class="dropdown-content">
+                <a href="${pageContext.request.contextPath}/listing/">Search Pets</a>
+                <a href="${pageContext.request.contextPath}/shelter/">View Shelters</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">About Us</button>
+            <div class="dropdown-content">
+                <a href="${pageContext.request.contextPath}/about">About</a>
+                <a href="${pageContext.request.contextPath}/contact-us">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</div><div class="no-height cleared"></div>
+
+<div class="content-body">
+	<c:if test="${not empty message}">
+		<div class="message-dialog">Message: <c:out value="${message}" escapeXml="true"/></div>
+	</c:if>
 
 

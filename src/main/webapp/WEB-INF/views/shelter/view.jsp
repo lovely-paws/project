@@ -8,21 +8,24 @@
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
-    <jsp:include page="/WEB-INF/views/header.jsp" />
-    <h1>Shelter View</h1>
-    <p>This page displays detailed information about a specific shelter.</p>
-    <lp:userTag user="${shelter}"  baseUrl="${pageContext.request.contextPath}" viewer="${userInfo.user}" detailed="true" />
+    <div class="content">
+        <jsp:include page="/WEB-INF/views/header.jsp" />
+        <h1>Shelter View</h1>
+        <p>This page displays detailed information about a specific shelter.</p>
+        <lp:userTag user="${shelter}"  baseUrl="${pageContext.request.contextPath}" viewer="${userInfo.user}" detailed="true" />
 
-    <h2>Listings</h2>
-    <c:choose>
-        <c:when test="${empty listings}">
-            <div class="warning">No listings available.</div>
-        </c:when>
-        <c:otherwise>
-            <c:forEach var="listing" items="${listings}">
-                <lp:listingTag baseUrl="${pageContext.request.contextPath}" listing="${listing}" detailed="false" />
-            </c:forEach>
-        </c:otherwise>
-    </c:choose>
+        <h2>Listings</h2>
+        <c:choose>
+            <c:when test="${empty listings}">
+                <div class="warning">No listings available.</div>
+            </c:when>
+            <c:otherwise>
+                <c:forEach var="listing" items="${listings}">
+                    <lp:listingTag baseUrl="${pageContext.request.contextPath}" listing="${listing}" detailed="false" />
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+        <jsp:include page="/WEB-INF/views/footer.jsp" />
+    </div>
 </body>
 </html>
