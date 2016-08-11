@@ -51,6 +51,8 @@ public class AdoptionRequestBo {
         AdoptionRequest adoptionRequest = adoptionRequestDao.findById(id);
         if(adoptionRequest.getListing().isVisible() && accepted) {
             adoptionRequest.getListing().setVisible(false);
+            adoptionRequest.setListing(listingDao.merge(adoptionRequest.getListing()));
+
         }
         adoptionRequest.setAdoptionRequestResult(accepted ? AdoptionRequestResult.APPROVED : AdoptionRequestResult.REJECTED);
         adoptionRequestDao.merge(adoptionRequest);
