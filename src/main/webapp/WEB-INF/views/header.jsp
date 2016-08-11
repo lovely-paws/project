@@ -15,10 +15,10 @@
 					<button class="dropbtn">My Account (${userInfo.user.username})</button>
 					<div class="dropdown-content">
 						<c:choose>
-							<c:when test="${userInfo.user.role == edu.johnshopkins.lovelypaws.Role.END_USER}">
+							<c:when test="${userInfo.user.role eq 'END_USER'}">
 								<a href="${pageContext.request.contextPath}/cart">My Cart</a>
 							</c:when>
-							<c:when test="${userInfo.user.role == edu.johnshopkins.lovelypaws.Role.SHELTER}">
+							<c:when test="${userInfo.user.role eq 'SHELTER'}">
 								<a href="${pageContext.request.contextPath}/shelter/requests">Approve Requests</a>
 								<a href="${pageContext.request.contextPath}/listing/create">Create Listing</a>
 								<a href="${pageContext.request.contextPath}/listing/?shelterId=${userInfo.user.id}">View Listings</a>
@@ -79,9 +79,9 @@
 		</div>
  </div>
  
-<% if(request.getAttribute("message") != null) { %>
-	<div class="message-dialog">Message: <c:out value="${message}" escapeXml="true"/></div>
-<% } %>
+<c:if test="${not empty message}">
+    <div class="message-dialog">Message: <c:out value="${message}" escapeXml="true"/></div>
+</c:if>
 <br>
 
 
