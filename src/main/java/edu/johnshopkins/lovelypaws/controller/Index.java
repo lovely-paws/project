@@ -1,7 +1,9 @@
 package edu.johnshopkins.lovelypaws.controller;
 
+import edu.johnshopkins.lovelypaws.LovelyPawsConstants;
 import edu.johnshopkins.lovelypaws.beans.ContactInfo;
 import edu.johnshopkins.lovelypaws.beans.UserInfo;
+import edu.johnshopkins.lovelypaws.bo.Mailer;
 import edu.johnshopkins.lovelypaws.dao.UserDao;
 import edu.johnshopkins.lovelypaws.entity.AbstractUser;
 import org.apache.commons.lang3.StringUtils;
@@ -53,8 +55,16 @@ public class Index {
             return new ModelAndView("redirect:/contact-us");
         }
 
-        redirectAttributes.addFlashAttribute("message", "E-mail sent!");
-        redirectAttributes.addFlashAttribute("contactInfo", new ContactInfo());
+        try {
+            Mailer.send(LovelyPawsConstants.EMAIL_ADDRESS, contactInfo.getSender(), "New Contact Us Submission", contactInfo.getMessage());
+            redirectAttributes.addFlashAttribute("message", "E-mail sent!");
+            redirectAttributes.addFlashAttribute("contactInfo", new ContactInfo());
+        } catch(Exception exception) {
+            System.err.printf("Failed to send message: %s.%n", exception);
+            redirectAttributes.addFlashAttribute("message", "Couldn't send message - please try again later.");
+            redirectAttributes.addFlashAttribute("contactInfo", contactInfo);
+        }
+
         return new ModelAndView("redirect:/contact-us");
     }
     
