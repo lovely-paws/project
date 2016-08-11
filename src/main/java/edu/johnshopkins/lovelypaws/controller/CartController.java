@@ -81,7 +81,7 @@ public class CartController {
     }
 
     @RequestMapping(path = {"/checkout"})
-    public ModelAndView checkout(RedirectAttributes redirectAttributes) {
+    public ModelAndView checkout(ApplicationInfo applicationInfo, RedirectAttributes redirectAttributes) {
         if(!(userInfo.getUser() instanceof EndUser)) {
             redirectAttributes.addFlashAttribute("message", "You cannot checkout - you are not logged in or your accountt type does not support this operation.");
             return new ModelAndView("redirect:/cart");
@@ -90,7 +90,7 @@ public class CartController {
             return new ModelAndView("redirect:/cart");
         }
         return new ModelAndView("/cart/checkout")
-                .addObject("applicationInfo", new ApplicationInfo())
+                .addObject("applicationInfo", applicationInfo == null ? new ApplicationInfo() : applicationInfo)
                 .addObject("listings", listingDao.findByIds(cart.getIds()));
     }
 
@@ -107,7 +107,16 @@ public class CartController {
             redirectAttributes.addFlashAttribute("applicationInfo", applicationInfo);
             return new ModelAndView("redirect:/cart/checkout");
         } else {
-            adoptionRequestBo.create(applicationInfo, (EndUser)userInfo.getUser(), cart.getIds());
+            applicationInfo.setEndUser((EndUser)userInfo.getUser());
+            applicationInfo.getListingIds().addAll(cart.getIds());
+
+            try {
+                adoptionRequestBo.create(applicationInfo);
+            } catch(IllegalArgumentException argumentException) {
+                redirectAttributes.addFlashAttribute("message", argumentException.getMessage());
+                return new ModelAndView("redirect:/cart");
+            }
+
             Set<String> shelterAddresses = new HashSet<>();
             List<Listing> listings = listingDao.findByIds(cart.getIds());
             for(Listing listing : listings) {

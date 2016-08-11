@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class DataInitializer {
@@ -174,14 +175,22 @@ public class DataInitializer {
         listingDao.persist(garfieldListing);
 
         log.debug("Creating canned applications for BOWSER...");
+        Set<Long> bowserId = new HashSet<>(Arrays.asList(bowserListing.getId()));
+
         ApplicationInfo applicationInfo = new ApplicationInfo();
-        applicationInfo.setWhy("BECAUSE");
+        applicationInfo.setWhy("I really like animals and want to provide them with a save and loving home.");
+        applicationInfo.setEndUser(endUser);
+        applicationInfo.setAccepted(true);
+        applicationInfo.getListingIds().addAll(bowserId);
 
         ApplicationInfo applicationInfo2 = new ApplicationInfo();
-        applicationInfo2.setWhy("BECAUSE2");
+        applicationInfo2.setWhy("I am an animal hoarder.");
+        applicationInfo2.setEndUser(endUser2);
+        applicationInfo2.setAccepted(true);
+        applicationInfo2.getListingIds().addAll(bowserId);
 
-        adoptionRequestBo.create(applicationInfo, endUser, new HashSet<>(Arrays.asList(bowserListing.getId())));
-        adoptionRequestBo.create(applicationInfo2, endUser2, new HashSet<>(Arrays.asList(bowserListing.getId())));
+        adoptionRequestBo.create(applicationInfo);
+        adoptionRequestBo.create(applicationInfo2);
     }
 
 }
