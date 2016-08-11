@@ -21,8 +21,9 @@ public class AnimalTypeBoImpl implements AnimalTypeBo {
         return 0 < length && length <= 128;
     }
 
-    private boolean isUnique(String name) {
-        return animalTypeDao.findByName(name) == null;
+    private boolean isUnique(String name, long id) {
+        AnimalType animalType = animalTypeDao.findByName(name);
+        return animalType == null || (animalType.getId() == id);
     }
 
     private boolean isValidDescription(String description) {
@@ -35,7 +36,7 @@ public class AnimalTypeBoImpl implements AnimalTypeBo {
             return new ServerResponse<>(false, "The request body was empty.", null);
         } else if(!isValidName(animalTypeInfo.getName())) {
             return new ServerResponse<>(false, "The provided name was not valid.", null);
-        } else if(!isUnique(animalTypeInfo.getName())) {
+        } else if(!isUnique(animalTypeInfo.getName(), Long.MIN_VALUE)) {
             return new ServerResponse<>(false, "The provided name is already is use.", null);
         } else if(!isValidDescription(animalTypeInfo.getDescription())) {
             return new ServerResponse<>(false, "The provided description was not valid.", null);
@@ -56,7 +57,7 @@ public class AnimalTypeBoImpl implements AnimalTypeBo {
             return new ServerResponse<>(false, "The referenced animal type does not exist.", null);
         } else if(!isValidName(animalTypeInfo.getName())) {
             return new ServerResponse<>(false, "The provided name was not valid.", null);
-        } else if(!isUnique(animalTypeInfo.getName())) {
+        } else if(!isUnique(animalTypeInfo.getName(), animalTypeInfo.getId())) {
             return new ServerResponse<>(false, "The provided name is already is use.", null);
         } else if(!isValidDescription(animalTypeInfo.getDescription())) {
             return new ServerResponse<>(false, "The provided description was not valid.", null);
