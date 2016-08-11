@@ -21,7 +21,7 @@ public class Mailer {
         session.setDebug(true);
 
         Message message = new MimeMessage(session);
-        message.setSubject("Registration Confirmation");
+        message.setSubject(subject);
         message.setContent(msg, "text/html");
 
         // 3 - address the message
