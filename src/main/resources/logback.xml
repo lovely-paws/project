@@ -9,6 +9,7 @@
 
     <logger name="edu.johnshopkins.lovelypaws" level="DEBUG" />
     <logger name="org.hibernate.*" level="INFO" />
+    <logger name="ERROR PAGE" level="TRACE" />
 
     <root level="OFF">
         <appender-ref ref="STDOUT" />
