@@ -6,7 +6,7 @@
 <html>
 <head>
     <title>Lovely Paws: Browse Listings</title>
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.less" />
 </head>
 <body>
     <div class="content">

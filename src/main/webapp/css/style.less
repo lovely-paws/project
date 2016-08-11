@@ -1,0 +1,232 @@
+* { font-size: 1em; }
+
+@darkest: #000;
+@color1: #58707F;
+@color2: #004E7F;
+@color3: #007DCC;
+@color4: #009CFF;
+@color5: #4CBAFF;
+@lightest: #fff;
+
+@caution-bg: #ffff99;
+@caution-border: #dddd75;
+@bfs: 1em;
+
+// ====================================================================================================================
+// Fundamental classes.
+// ====================================================================================================================
+.clearable { clear: both; }
+.b { font-weight: bolder; }
+.centered { text-align: center; }
+.listing-image {
+    display: block;
+    float:left;
+    border: 1px solid #000;
+    height: 200px;
+    width: 200px;
+}
+
+.cart-image {
+    width: 50px;
+    height: 50px;
+}
+
+.no-height { height: 0; }
+
+// ====================================================================================================================
+// Main Content
+// ====================================================================================================================
+
+body {
+    font-family: sans-serif;
+    font-size: @bfs;
+    max-width: 80%;
+    margin: 0 auto;
+    background-color: @color1;
+}
+
+.content {
+    margin: 1em;
+    border: 0.33em solid @color2;
+}
+
+// ====================================================================================================================
+// Header
+// ====================================================================================================================
+
+.header{
+    max-width:100%;
+    padding: 0;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+
+        li {
+            margin: 0;
+            padding: 0;
+        }
+    }
+}
+
+.login{
+    width: 100%;
+    background-color: @color2;
+    text-align: right;
+}
+
+.logo{
+    background-color: @lightest;
+    padding: 0;
+}
+
+.navigation{
+    list-style-type:none;
+    width: 100%;
+    background-color: @color2;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-li-1 {
+    display: inline-block;
+    font-weight: bolder;
+    vertical-align:top;
+    padding: 0 2em;
+    min-width: 10em;
+}
+
+.nav-li-1:first-child {
+    margin: 0; padding-left: 0;
+}
+.nav-level-2 {
+    list-style-type:none;
+    display: list-item;
+    margin: 0; padding: 0;
+}
+
+.nav-li-2 {
+    font-weight: normal;
+    display: list-item;
+    text-align:left;
+}
+
+
+/*From  http://www.w3schools.com/howto/howto_css_dropdown.asp */
+/* Dropdown Button */
+.dropdown-button {
+    background-color: @color2;
+    color: white;
+    padding: 3px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: @color2;
+    color: @lightest;
+    min-width: 110px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: @lightest;
+    padding: 3px 3px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: @color4;
+    color: @lightest;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropdown-button {
+    background-color: @color4;
+}
+
+// ====================================================================================================================
+// Body
+// ====================================================================================================================
+
+.content-body {
+    background-color: @lightest;
+    padding: 1em;
+    min-height: 30em;
+}
+
+// ====================================================================================================================
+// Footer
+// ====================================================================================================================
+
+.footer {
+    padding: 0.5em;
+    color: @lightest;
+    background-color: @color2;
+}
+
+.message-dialog {
+    border: 1px solid @caution-border;
+    background-color: @caution-bg;
+    padding: 0.25em;
+}
+
+
+
+
+
+table {
+    max-width: 100%;
+    margin: 1em 0;
+}
+
+.listing {
+    clear: both;
+}
+
+table.listing-table {
+    margin-left: 225px;
+}
+
+select, input[type='text'], input[type='password'], textarea {
+    width: 100%;
+}
+
+table tr:first-child td[colspan='2'] {
+    text-align: center;
+    text-decoration: underline;
+}
+
+table tr td:first-child {
+    font-weight: bolder;
+    width: 25%;
+    text-align: left;
+    padding: 0 0.5em;
+}
+
+input[type='submit'] {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bolder;
+}
+
+
+

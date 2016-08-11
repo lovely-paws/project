@@ -1,12 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="banner">
-	<div class="login" align="right">
+<div class="header">
+	<ul class="login">
 		<c:choose>
 			<c:when test="${not empty userInfo.user}">
-				<div class="dropdown">
-					<button class="dropbtn">My Account (${userInfo.user.username})</button>
-					<div class="dropdown-content">
+				<li class="dropdown">
+					<button class="dropdown-button">My Account (${userInfo.user.username})</button>
+					<ul class="dropdown-content">
 						<c:choose>
 							<c:when test="${userInfo.user.role eq 'END_USER'}">
 								<a href="${pageContext.request.contextPath}/cart">My Cart</a>
@@ -22,56 +22,55 @@
 								<a href="${pageContext.request.contextPath}/user/">View Users</a>
 							</c:otherwise>
 						</c:choose>
-					</div>
-				</div>
-				<div class="dropdown">
-					<button class="dropbtn" onclick="location.href='${pageContext.request.contextPath}/logout';">Logout</button>
-				</div>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<button class="dropdown-button" onclick="location.href='${pageContext.request.contextPath}/logout';">Logout</button>
+				</li>
 			</c:when>
 			<c:otherwise>
 				<div class="dropdown">
-					<button class="dropbtn">Register</button>
+					<button class="dropdown-button">Register</button>
 					<div class="dropdown-content">
 						<a href="${pageContext.request.contextPath}/shelter/register">Register as Shelter</a>
 						<a href="${pageContext.request.contextPath}/user/register">Register as User</a>
 					</div>
 				</div>
 				<div class="dropdown">
-					<button class="dropbtn" onclick="location.href='${pageContext.request.contextPath}/login';">Login</button>
+					<button class="dropdown-button" onclick="location.href='${pageContext.request.contextPath}/login';">Login</button>
 				</div>
 			</c:otherwise>
 		</c:choose>
-	</div>
+	</ul>
 
 	<div class="logo">
 		<img src="${pageContext.request.contextPath}/img/logo.png" />
 	</div>
 
-	<div class="navigation">
-		<div class="dropdown">
-			<button class="dropbtn" onclick="location.href='${pageContext.request.contextPath}/';">Home</button>
-		</div>
-		<div class="dropdown">
-			<button class="dropbtn">Our Pets</button>
-			<div class="dropdown-content">
-				<a href="${pageContext.request.contextPath}/listing/">Search Pets</a>
-				<a href="${pageContext.request.contextPath}/shelter/">View Shelters</a>
-			</div>
-		</div>
-
-		<div class="dropdown">
-			<button class="dropbtn">About Us</button>
-			<div class="dropdown-content">
-				<a href="${pageContext.request.contextPath}/about">About</a>
-				<a href="${pageContext.request.contextPath}/contact-us">Contact Us</a>
-			</div>
-		</div>
-	</div>
+	<ul class="navigation">
+		<li class="dropdown">
+			<button class="dropdown-button" onclick="location.href='${pageContext.request.contextPath}/';">Home</button>
+		</li>
+		<li class="dropdown">
+			<button class="dropdown-button">Our Pets</button>
+			<ul class="dropdown-content">
+				<li><a href="${pageContext.request.contextPath}/listing/">Search Pets</a><li>
+				<li><a href="${pageContext.request.contextPath}/shelter/">View Shelters</a><li>
+			</ul>
+		</li>
+		<li class="dropdown">
+			<button class="dropdown-button">About Us</button>
+			<ul class="dropdown-content">
+				<li><a href="${pageContext.request.contextPath}/about">About</a><li>
+				<li><a href="${pageContext.request.contextPath}/contact-us">Contact Us</a><li>
+			</ul>
+		</li>
+	</ul>
 </div><div class="no-height cleared"></div>
 
 <div class="content-body">
 	<c:if test="${not empty message}">
-	<div class="message-dialog">Message: <c:out value="${message}" escapeXml="true"/></div>
+		<div class="message-dialog">Message: <c:out value="${message}" escapeXml="true"/></div>
 	</c:if>
 
 

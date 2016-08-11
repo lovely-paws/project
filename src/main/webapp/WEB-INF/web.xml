@@ -11,4 +11,14 @@
         <exception-type>java.lang.Exception</exception-type>
         <location>/WEB-INF/views/error.jsp</location>
     </error-page>
+
+    <filter>
+        <filter-name>LessFilter</filter-name>
+        <filter-class>edu.johnshopkins.lovelypaws.filters.LessFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LessFilter</filter-name>
+        <url-pattern>*.less</url-pattern>
+    </filter-mapping>
 </web-app>
