@@ -3,6 +3,9 @@ package edu.johnshopkins.lovelypaws.beans;
 import edu.johnshopkins.lovelypaws.Age;
 import edu.johnshopkins.lovelypaws.Gender;
 import edu.johnshopkins.lovelypaws.entity.Listing;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 public class ListingInfo {
     private long id;
@@ -12,6 +15,7 @@ public class ListingInfo {
     private long animalTypeId;
     private Gender gender;
     private Age age;
+    private File imageFile;
 
     public ListingInfo() { }
     public ListingInfo(Listing listing) {
@@ -23,6 +27,7 @@ public class ListingInfo {
             this.animalTypeId = listing.getAnimalType().getId();
             this.gender = listing.getGender();
             this.age = listing.getAge();
+            this.imageFile = listing.getImageFile();
         }
     }
 
@@ -80,5 +85,13 @@ public class ListingInfo {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public File getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(File imageFile) {
+        this.imageFile = imageFile;
     }
 }

@@ -9,9 +9,11 @@ import edu.johnshopkins.lovelypaws.entity.Listing;
 import edu.johnshopkins.lovelypaws.entity.Shelter;
 import edu.johnshopkins.lovelypaws.entity.User;
 
+import java.io.File;
+
 public interface ListingBo {
 
     ServerResponse<Listing> update(User user, ListingInfo listingInfo);
-    Listing createListing(Shelter shelter, AnimalType animalType, String name, String description, String color, Gender gender, Age age);
+    Listing createListing(Shelter shelter, AnimalType animalType, String name, String description, String color, Gender gender, Age age, File imageFile);
 
 }

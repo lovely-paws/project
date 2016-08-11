@@ -7,10 +7,14 @@ import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
 import edu.johnshopkins.lovelypaws.dao.*;
 import edu.johnshopkins.lovelypaws.entity.*;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -124,6 +128,15 @@ public class DataInitializer {
         bowserListing.setColor("Black");
         bowserListing.setAge(Age.YOUNG);
         bowserListing.setGender(Gender.MALE);
+
+        // Load canned picture.
+        try {
+            File bowserImage = new File("/tmp/bowser.jpg");
+            FileUtils.copyInputStreamToFile(new ClassPathResource("../bowser.jpg").getInputStream(), bowserImage);
+            bowserListing.setImageFile(bowserImage);
+        } catch(IOException ioException) {
+            System.err.println(ioException);
+        }
         listingDao.persist(bowserListing);
 
         Listing garfieldListing = new Listing();
@@ -135,6 +148,15 @@ public class DataInitializer {
         garfieldListing.setColor("ORANGE");
         garfieldListing.setAge(Age.ADULT);
         garfieldListing.setGender(Gender.MALE);
+        // Load canned picture.
+        try {
+            File garfieldImage = new File("/tmp/garfield.png");
+            FileUtils.copyInputStreamToFile(new ClassPathResource("../garfield.jpg").getInputStream(), garfieldImage);
+            garfieldListing.setImageFile(garfieldImage);
+        } catch(IOException ioException) {
+            System.err.println(ioException);
+        }
+
         listingDao.persist(garfieldListing);
 
         ApplicationInfo applicationInfo = new ApplicationInfo();

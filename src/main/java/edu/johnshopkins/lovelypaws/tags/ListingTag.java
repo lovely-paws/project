@@ -28,8 +28,12 @@ public class ListingTag extends SimpleTagSupport {
             return;
         }
 
-        sb.append("<div>");
-        sb.append("<table>")
+        sb.append("<div class='listing'>");
+        if(listing.getImageFile() != null) {
+            sb.append(format("<img src='%s/listing/image/%d' class='listing-image' />", baseUrl, listing.getId()));
+        }
+
+        sb.append("<table class='listing-table'>")
                 .append(format("<tr><td colspan='2'>[Listing #%d] %s</td></tr>", listing.getId(), listing.getName()))
                 .append(format("<tr><td>Type</td><td>%s</td></tr>", listing.getAnimalType().getName()))
                 .append(format("<tr><td>Color</td><td>%s</td></tr>", listing.getColor()))

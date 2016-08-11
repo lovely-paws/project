@@ -7,7 +7,7 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/header.jsp" />
-    <spring:form action="#" method="POST" modelAttribute="listingInfo">
+    <spring:form action="#" method="POST" modelAttribute="listingInfo" enctype="multipart/form-data">
         <table>
             <tr>
                 <td><spring:label path="name">Name</spring:label></td>
@@ -44,6 +44,10 @@
             <tr>
                 <td><spring:label path="color">Color</spring:label></td>
                 <td><spring:input path="color" /></td>
+            </tr>
+            <tr>
+                <td><label for="uploadedFile">Image (JPG)</label></td>
+                <td><input type="file" id="uploadedFile" name="uploadedFile" accept="image/jpeg" /></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" value="Create Listing" /></td>

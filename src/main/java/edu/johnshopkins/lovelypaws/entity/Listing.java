@@ -5,6 +5,7 @@ import edu.johnshopkins.lovelypaws.Gender;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +61,11 @@ public class Listing {
     protected Gender gender;
     public Gender getGender() { return gender; }
     public void setGender(Gender gender) { this.gender = gender; }
+
+    @Column
+    protected File imageFile;
+    public File getImageFile() { return imageFile; }
+    public void setImageFile(File imageFile) { this.imageFile = imageFile; }
 
     @OneToMany(mappedBy = "listing", cascade = CascadeType.ALL, targetEntity = AdoptionRequest.class)
     protected List<AdoptionRequest> adoptionRequests = new ArrayList<>();

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.List;
 
 @Component
@@ -28,7 +29,7 @@ public class ListingBoImpl implements ListingBo {
     private AnimalTypeDao animalTypeDao;
 
     public Listing createListing(Shelter shelter, AnimalType animalType, String name, String description, String color,
-                                 Gender gender, Age age) {
+                                 Gender gender, Age age, File imageFile) {
         Listing listing = new Listing();
         if(animalType == null) {
             throw new IllegalArgumentException("animalType");
@@ -41,6 +42,7 @@ public class ListingBoImpl implements ListingBo {
         listing.setVisible(true);
         listing.setGender(gender);
         listing.setAge(age);
+        listing.setImageFile(imageFile);
         return listingDao.persist(listing);
     }
 

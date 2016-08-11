@@ -11,15 +11,23 @@ import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
 import edu.johnshopkins.lovelypaws.bo.ListingBo;
 import edu.johnshopkins.lovelypaws.dao.*;
 import edu.johnshopkins.lovelypaws.entity.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,7 +84,7 @@ public class ListingController {
 
     /** [SHELTERS] Attempts to create a listing using the information provided in the creation form. */
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public ModelAndView executeCreate(ListingInfo listingInfo, RedirectAttributes redirectAttributes) {
+    public ModelAndView executeCreate(ListingInfo listingInfo, MultipartFile uploadedFile, RedirectAttributes redirectAttributes) {
         if(userInfo.getUser() == null) {
             redirectAttributes.addFlashAttribute("message", "You must be logged in to do that.");
             return new ModelAndView("redirect:/");
@@ -88,13 +96,24 @@ public class ListingController {
             return new ModelAndView("redirect:/");
         }
 
+        if(uploadedFile != null) {
+            try {
+                File tmp = File.createTempFile("lp-image", "");
+                FileUtils.copyInputStreamToFile(uploadedFile.getInputStream(), tmp);
+                listingInfo.setImageFile(tmp);
+            } catch(IOException ioe) {
+                System.err.printf("Failed to upload file.%n%s", ioe);
+            }
+        }
+
         Listing listing = listingBo.createListing((Shelter)(userInfo.getUser()),
                 animalTypeDao.findById(listingInfo.getAnimalTypeId()),
                 listingInfo.getName(),
                 listingInfo.getDescription(),
                 listingInfo.getColor(),
                 listingInfo.getGender(),
-                listingInfo.getAge());
+                listingInfo.getAge(),
+                listingInfo.getImageFile());
 
         return new ModelAndView("redirect:/listing/view/"+listing.getId());
     }
@@ -187,6 +206,17 @@ public class ListingController {
 
         return new ModelAndView("/listing/view")
                 .addObject("listing", listing);
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/image/{id}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] serveImage(HttpServletRequest request, @PathVariable("id") long id) {
+        try {
+            return FileUtils.readFileToByteArray(listingDao.findById(id).getImageFile());
+        } catch(Exception exception) {
+            System.err.printf("Failed to serve image '%d' due to an exception.%n%s", id, exception);
+            return null;
+        }
     }
 
     @RequestMapping(path = "/delete/{id}")
