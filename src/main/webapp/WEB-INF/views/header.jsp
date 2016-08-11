@@ -67,7 +67,7 @@
 	</div>
 	
 	<div class="logo">
-		Lovely Paws
+		<img src="${pageContext.request.contextPath}/img/logo.png" />
 	</div>
 	
 	<div class="navigation">
