@@ -9,6 +9,8 @@ import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
 import edu.johnshopkins.lovelypaws.bo.Mailer;
 import edu.johnshopkins.lovelypaws.dao.ListingDao;
 import edu.johnshopkins.lovelypaws.entity.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -30,6 +32,7 @@ import java.util.Set;
 @RequestMapping("/cart")
 @Scope("session")
 public class CartController {
+    private static final Logger log = LoggerFactory.getLogger(CartController.class);
 
     @Value("#{servletContext.contextPath}")
     private String servletContextPath;
@@ -120,7 +123,7 @@ public class CartController {
                             "New Adoption Request",
                             createAdoptionRequestMessage((EndUser)(userInfo.getUser()), applicationInfo));
                 } catch(Exception exception) {
-                    System.err.printf("Failed to send a notification to %s: %s%n",
+                    log.error("Failed to send a notification to {}",
                             shelterAddress, exception);
                 }
             }

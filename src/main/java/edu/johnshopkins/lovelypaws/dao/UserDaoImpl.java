@@ -2,12 +2,15 @@ package edu.johnshopkins.lovelypaws.dao;
 
 import edu.johnshopkins.lovelypaws.entity.AbstractUser;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public class UserDaoImpl extends AbstractHibernateDao<AbstractUser> implements UserDao {
+    private static final Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
 
     public UserDaoImpl() { clazz = (AbstractUser.class); }
 
@@ -24,7 +27,7 @@ public class UserDaoImpl extends AbstractHibernateDao<AbstractUser> implements U
                 .getResultList();
         if(list.size() > 0) {
             AbstractUser abstractUser = (AbstractUser)list.get(0);
-            System.out.printf("[User %d] Login successful.%n", abstractUser.getId());
+            log.info("User '{}' has successfully logged in.", abstractUser.getUsername());
             return abstractUser;
         } else {
             return null;

@@ -7,6 +7,8 @@ import edu.johnshopkins.lovelypaws.bo.Mailer;
 import edu.johnshopkins.lovelypaws.dao.UserDao;
 import edu.johnshopkins.lovelypaws.entity.AbstractUser;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/")
 @Scope("session")
 public class Index {
+    private static final Logger log = LoggerFactory.getLogger(Index.class);
 
     @Autowired
     private UserInfo userInfo;
@@ -60,7 +63,7 @@ public class Index {
             redirectAttributes.addFlashAttribute("message", "E-mail sent!");
             redirectAttributes.addFlashAttribute("contactInfo", new ContactInfo());
         } catch(Exception exception) {
-            System.err.printf("Failed to send message: %s.%n", exception);
+            log.error("Failed to send the contact us e-mail.", exception);
             redirectAttributes.addFlashAttribute("message", "Couldn't send message - please try again later.");
             redirectAttributes.addFlashAttribute("contactInfo", contactInfo);
         }
