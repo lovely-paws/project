@@ -14,6 +14,6 @@ import java.io.File;
 public interface ListingBo {
 
     ServerResponse<Listing> update(User user, ListingInfo listingInfo);
-    Listing createListing(Shelter shelter, AnimalType animalType, String name, String description, String color, Gender gender, Age age, File imageFile);
+    ServerResponse<Listing> createListing(Shelter shelter, AnimalType animalType, String name, String description, String color, Gender gender, Age age, File imageFile);
 
 }

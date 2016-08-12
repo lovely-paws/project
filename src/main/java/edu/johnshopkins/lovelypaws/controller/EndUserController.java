@@ -1,6 +1,6 @@
 package edu.johnshopkins.lovelypaws.controller;
 
-import edu.johnshopkins.lovelypaws.beans.CreateUserRequest;
+import edu.johnshopkins.lovelypaws.beans.EndUserInfo;
 import edu.johnshopkins.lovelypaws.beans.UserInfo;
 import edu.johnshopkins.lovelypaws.bo.EndUserBo;
 import edu.johnshopkins.lovelypaws.entity.EndUser;
@@ -27,7 +27,7 @@ public class EndUserController {
     public ModelAndView register() {
         if(userInfo.getUser() == null) {
             return new ModelAndView("/user/register")
-                    .addObject("createUserRequest", new CreateUserRequest());
+                    .addObject("endUserInfo", new EndUserInfo());
         } else {
             return new ModelAndView("/account")
                     .addObject("message", "You cannot register as a user while logged in to the application.");
@@ -35,14 +35,14 @@ public class EndUserController {
     }
 
     @RequestMapping(path = "/create")
-    public ModelAndView createUser(@ModelAttribute("createUserRequest")CreateUserRequest createUserRequest, RedirectAttributes redirectAttributes) {
+    public ModelAndView createUser(@ModelAttribute("endUserInfo")EndUserInfo endUserInfo, RedirectAttributes redirectAttributes) {
         if(userInfo.getUser() != null) {
             redirectAttributes.addFlashAttribute("message", "You cannot register as a user while logged in to the application.");
             return new ModelAndView("redirect:/index");
         }
 
         try {
-            EndUser endUser = endUserBo.create(createUserRequest);
+            EndUser endUser = endUserBo.create(endUserInfo);
             userInfo.setUser(endUser);
             redirectAttributes.addFlashAttribute("message", "Account created!");
             return new ModelAndView("redirect:/");
@@ -50,7 +50,7 @@ public class EndUserController {
             // The user provided a bad parameter. Kick them back
             // and have them resubmit the form.
             return new ModelAndView("/user/register")
-                    .addObject("createUserRequest", createUserRequest)
+                    .addObject("endUserInfo", endUserInfo)
                     .addObject("message", illegalArgumentException.getMessage());
         }
     }

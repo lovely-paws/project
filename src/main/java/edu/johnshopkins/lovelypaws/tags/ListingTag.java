@@ -29,9 +29,7 @@ public class ListingTag extends SimpleTagSupport {
         }
 
         sb.append("<div class='listing'>");
-        if(listing.getImageFile() != null) {
             sb.append(format("<img src='%s/listing/image/%d' class='listing-image' />", baseUrl, listing.getId()));
-        }
 
         sb.append("<table class='listing-table'>")
                 .append(format("<tr><td colspan='2'>[Listing #%d] %s</td></tr>", listing.getId(), listing.getName()))

@@ -1,6 +1,6 @@
 package edu.johnshopkins.lovelypaws.bo;
 
-import edu.johnshopkins.lovelypaws.beans.AddressData;
+import edu.johnshopkins.lovelypaws.UserInputUtils;
 import edu.johnshopkins.lovelypaws.beans.AddressInfo;
 import edu.johnshopkins.lovelypaws.dao.ShelterHibernateDao;
 import edu.johnshopkins.lovelypaws.entity.*;
@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+
+import static edu.johnshopkins.lovelypaws.UserInputUtils.isValidEmailAddress;
+import static edu.johnshopkins.lovelypaws.UserInputUtils.isValidName;
+import static edu.johnshopkins.lovelypaws.UserInputUtils.trimAndUpper;
 
 @Component
 public class ShelterBoImpl implements ShelterBo {
@@ -20,28 +23,56 @@ public class ShelterBoImpl implements ShelterBo {
     @Autowired
     private ShelterHibernateDao shelterDao;
 
-    public Shelter createShelter(String username, String passwordSha512, String name, String description, AddressData addressData, String phoneNumber, String emailAddress,  List<AnimalType> animalTypes) {
-        username = StringUtils.upperCase(StringUtils.trimToNull(username));
-        if(username == null) {
-            throw new IllegalArgumentException("username");
-        }
-
-        // TODO: Check inputs and throw exceptions or return errors as appropriate.
-
-        Address address = new Address();
-        address.setLine1(addressData.getLine1());
-        address.setLine2(addressData.getLine2());
-        address.setCity(addressData.getCity());
-        address.setState(addressData.getState());
-        address.setZip(addressData.getZip());
+    public Shelter createShelter(String username, String password, String name, String description, AddressInfo addressInfo, String phoneNumber, String emailAddress,  List<AnimalType> animalTypes) {
+        username = trimAndUpper(username);
+        password = StringUtils.trimToNull(password);
+        name = trimAndUpper(name);
+        description = trimAndUpper(description);
+        trimAndUpper(addressInfo);
+        phoneNumber = trimAndUpper(phoneNumber);
+        emailAddress = trimAndUpper(emailAddress);
 
         Shelter shelter = new Shelter();
+
+        if(username == null) {
+            throw new IllegalArgumentException("Invalid username.");
+        } else if(shelterDao.findByName(username) != null) {
+            throw new IllegalArgumentException("Username is already in use.");
+        }
+
         shelter.setUsername(username);
-        shelter.setPasswordSha512(passwordSha512);
+
+        if(password == null) {
+            throw new IllegalArgumentException("Password must be provided.");
+        }
+        shelter.setPasswordSha512(DigestUtils.sha512Hex(password));
+
+        if(!isValidEmailAddress(emailAddress)) {
+            throw new IllegalArgumentException("Invalid e-mail address.");
+        }
         shelter.setEmailAddress(emailAddress);
-        shelter.setName(name);
-        shelter.setDescription(description);
+
+        if(!isValidAddressInfo(addressInfo)) {
+            throw new IllegalArgumentException("The provided address information is not valid.");
+        }
+
+        Address address = new Address();
+        mergeAddress(address, addressInfo);
         shelter.setAddress(address);
+
+        if(!isValidName(name)) {
+            throw new IllegalArgumentException("Invalid name.");
+        }
+        shelter.setName(name);
+
+        if(description == null) {
+            throw new IllegalArgumentException("Description must be provided.");
+        }
+        shelter.setDescription(description);
+        ;
+        if(phoneNumber == null) {
+            throw new IllegalArgumentException("Phone number must be provided.");
+        }
         shelter.setPhoneNumber(phoneNumber);
         shelter.setApproved(false);
         return shelterDao.persist(shelter);
@@ -91,5 +122,13 @@ public class ShelterBoImpl implements ShelterBo {
                 StringUtils.length(addressInfo.getCity()) > 0 &&
                 StringUtils.length(addressInfo.getState()) > 0 &&
                 StringUtils.length(addressInfo.getZip()) > 0;
+    }
+
+    private void mergeAddress(Address address, AddressInfo addressInfo) {
+        address.setLine1(addressInfo.getLine1());
+        address.setLine2(StringUtils.trimToNull(addressInfo.getLine2()));
+        address.setCity(addressInfo.getCity());
+        address.setState(addressInfo.getState());
+        address.setZip(addressInfo.getZip());
     }
 }

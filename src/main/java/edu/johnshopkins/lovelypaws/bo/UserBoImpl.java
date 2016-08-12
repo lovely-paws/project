@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import static edu.johnshopkins.lovelypaws.UserInputUtils.isValidEmailAddress;
+import static edu.johnshopkins.lovelypaws.UserInputUtils.isValidName;
+import static edu.johnshopkins.lovelypaws.UserInputUtils.trimAndUpper;
+
 @Component
 public class UserBoImpl implements UserBo {
 
@@ -18,25 +22,7 @@ public class UserBoImpl implements UserBo {
     @Autowired
     private ShelterBo shelterBo;
 
-    // =================================================================================================================
-    // Sanitization Methods
-    // =================================================================================================================
-
-    private String trimAndUpper(String name) {
-        return StringUtils.upperCase(StringUtils.trimToNull(name));
-    }
-
-    private void trimAndUpper(AddressInfo addressInfo) {
-        if(addressInfo != null) {
-            addressInfo.setLine1(trimAndUpper(addressInfo.getLine1()));
-            addressInfo.setLine2(trimAndUpper(addressInfo.getLine2()));
-            addressInfo.setCity(trimAndUpper(addressInfo.getCity()));
-            addressInfo.setState(trimAndUpper(addressInfo.getState()));
-            addressInfo.setZip(trimAndUpper(addressInfo.getZip()));
-        }
-    }
-
-    // =================================================================================================================
+        // =================================================================================================================
     // Interface methods
     // =================================================================================================================
 
@@ -80,16 +66,6 @@ public class UserBoImpl implements UserBo {
         } else {
             return new ServerResponse<>(false, "Unknown account type.", null);
         }
-    }
-
-    public boolean isValidEmailAddress(String emailAddress) {
-        int length = StringUtils.trimToEmpty(emailAddress).length();
-        return 0 < length && length <= 255;
-    }
-
-    public boolean isValidName(String name) {
-        int length = StringUtils.trimToEmpty(name).length();
-        return 0 < length && length <= 128;
     }
 
     // =================================================================================================================

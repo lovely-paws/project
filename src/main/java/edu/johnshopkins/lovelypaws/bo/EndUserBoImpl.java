@@ -1,6 +1,7 @@
 package edu.johnshopkins.lovelypaws.bo;
 
-import edu.johnshopkins.lovelypaws.beans.CreateUserRequest;
+import edu.johnshopkins.lovelypaws.beans.AccountInfo;
+import edu.johnshopkins.lovelypaws.beans.EndUserInfo;
 import edu.johnshopkins.lovelypaws.dao.UserDao;
 import edu.johnshopkins.lovelypaws.entity.EndUser;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -14,15 +15,15 @@ public class EndUserBoImpl implements EndUserBo {
     @Autowired
     private UserDao userDao;
 
-    public EndUser create(CreateUserRequest createUserRequest) {
-        if(createUserRequest == null) {
+    public EndUser create(EndUserInfo endUserInfo) {
+        if(endUserInfo == null) {
             return null;
         }
 
-        String username = StringUtils.trimToNull(createUserRequest.getUsername());
-        String password = StringUtils.trimToNull(createUserRequest.getPasswordSha512());
-        String emailAddress = StringUtils.trimToNull(createUserRequest.getEmail());
-        String name = StringUtils.trimToNull(createUserRequest.getName());
+        String username = StringUtils.trimToNull(endUserInfo.getUsername());
+        String password = StringUtils.trimToNull(endUserInfo.getPassword());
+        String emailAddress = StringUtils.trimToNull(endUserInfo.getEmailAddress());
+        String name = StringUtils.trimToNull(endUserInfo.getName());
 
         if(username == null) {
             throw new IllegalArgumentException("A username must be provided.");

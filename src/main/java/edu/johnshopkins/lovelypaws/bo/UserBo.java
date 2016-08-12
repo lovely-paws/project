@@ -9,6 +9,4 @@ import edu.johnshopkins.lovelypaws.entity.User;
 public interface UserBo {
     AbstractUser login(String username, String password);
     ServerResponse<User> update(AccountInfo accoutInfo);
-    boolean isValidName(String name);
-    boolean isValidEmailAddress(String emailAddress);
 }

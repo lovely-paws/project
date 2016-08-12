@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.util.List;
 
+import static edu.johnshopkins.lovelypaws.UserInputUtils.trimAndUpper;
+
 @Component
 public class ListingBoImpl implements ListingBo {
 
@@ -28,22 +30,51 @@ public class ListingBoImpl implements ListingBo {
     @Autowired
     private AnimalTypeDao animalTypeDao;
 
-    public Listing createListing(Shelter shelter, AnimalType animalType, String name, String description, String color,
+    public ServerResponse<Listing> createListing(Shelter shelter, AnimalType animalType, String name, String description, String color,
                                  Gender gender, Age age, File imageFile) {
         Listing listing = new Listing();
         if(animalType == null) {
-            throw new IllegalArgumentException("animalType");
+            return new ServerResponse<>(false, "An animal type must be provided.", null);
         }
         listing.setAnimalType(animalType);
+
+        name = trimAndUpper(name);
+        if(name == null) {
+            return new ServerResponse<>(false, "The listing must include a name.", null);
+        }
         listing.setName(name);
+
+        description = trimAndUpper(description);
+        if(description == null) {
+            return new ServerResponse<>(false, "The listing must include a description.", null);
+        }
         listing.setDescription(description);
+
+        color = trimAndUpper(color);
+        if(color == null) {
+            return new ServerResponse<>(false, "The listing must include a color.", null);
+        }
         listing.setColor(color);
+
+        if(shelter == null) {
+            return new ServerResponse<>(false, "A shelter was not provided.", null);
+        }
         listing.setShelter(shelter);
+
         listing.setVisible(true);
+
+        if(gender == null) {
+            return new ServerResponse<>(false, "A gender must be provided.", null);
+        }
         listing.setGender(gender);
+
+        if(age == null) {
+            return new ServerResponse<>(false, "An age must be provided.", null);
+        }
         listing.setAge(age);
+
         listing.setImageFile(imageFile);
-        return listingDao.persist(listing);
+        return new ServerResponse<>(true, "Listing created!", listingDao.persist(listing));
     }
 
     @Transactional

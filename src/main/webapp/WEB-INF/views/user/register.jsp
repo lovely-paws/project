@@ -9,23 +9,23 @@
     <div class="content">
         <jsp:include page="/WEB-INF/views/header.jsp" />
         <h1>Register</h1>
-        <spring:form action="create" method="POST" modelAttribute="createUserRequest">
+        <spring:form action="create" method="POST" modelAttribute="endUserInfo">
             <table>
                 <tr>
                     <td><spring:label path="username">Username</spring:label></td>
                     <td><spring:input path="username" /></td>
                 </tr>
                 <tr>
-                    <td><spring:label path="passwordSha512">Password</spring:label></td>
-                    <td><spring:password path="passwordSha512" /></td>
+                    <td><spring:label path="password">Password</spring:label></td>
+                    <td><spring:password path="password" /></td>
                 </tr>
                 <tr>
                     <td><spring:label path="name">Name</spring:label></td>
                     <td><spring:input path="name" /></td>
                 </tr>
                 <tr>
-                    <td><spring:label path="email">E-Mail Address</spring:label></td>
-                    <td><spring:input path="email" /></td>
+                    <td><spring:label path="emailAddress">E-Mail Address</spring:label></td>
+                    <td><spring:input path="emailAddress" /></td>
                 </tr>
                 <tr>
                     <td colspan="2"><input type="submit" value="Register" /></td>

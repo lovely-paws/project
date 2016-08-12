@@ -2,7 +2,7 @@ package edu.johnshopkins.lovelypaws.controller;
 
 import edu.johnshopkins.lovelypaws.AdoptionRequestResult;
 import edu.johnshopkins.lovelypaws.Role;
-import edu.johnshopkins.lovelypaws.beans.ShelterData;
+import edu.johnshopkins.lovelypaws.beans.ShelterInfo;
 import edu.johnshopkins.lovelypaws.beans.UserInfo;
 import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
 import edu.johnshopkins.lovelypaws.dao.AdoptionRequestDao;
@@ -12,7 +12,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -49,10 +48,10 @@ public class ShelterController {
      * users are returned back to the main page.
      */
     @RequestMapping(path = {"/register"})
-    public ModelAndView register(RedirectAttributes redirectAttributes) {
+    public ModelAndView register(ShelterInfo shelterInfo, RedirectAttributes redirectAttributes) {
         if(userInfo.getUser() == null) {
             return new ModelAndView("shelter/register")
-                    .addObject("shelterData", new ShelterData());
+                    .addObject("shelterInfo", (shelterInfo == null ? new ShelterInfo() : shelterInfo));
         } else {
             redirectAttributes.addFlashAttribute("message", "You must log out in order to register.");
             return new ModelAndView("redirect:/");
@@ -120,23 +119,24 @@ public class ShelterController {
      * authenticated users are returned to the home page.
      */
     @RequestMapping(path = "/create")
-    public ModelAndView createShelter(@ModelAttribute("shelterData") ShelterData shelterData, RedirectAttributes redirectAttributes) {
+    public ModelAndView createShelter(@ModelAttribute("shelterInfo") ShelterInfo shelterInfo, RedirectAttributes redirectAttributes) {
         if(userInfo.getUser() != null) {
             redirectAttributes.addFlashAttribute("message", "You cannot register as a shelter while logged in.");
             return new ModelAndView("redirect:/");
         }
 
         try {
-            Shelter shelter = shelterBo.createShelter(shelterData.getUsername(),
-                    DigestUtils.sha512Hex(shelterData.getPasswordSha512()),
-                    shelterData.getName(), shelterData.getDescription(), shelterData.getAddressData(),
-                    shelterData.getPhoneNumber(), shelterData.getEmailAddress(), new ArrayList<>());
+            Shelter shelter = shelterBo.createShelter(shelterInfo.getUsername(),
+                    shelterInfo.getPassword(),
+                    shelterInfo.getName(), shelterInfo.getDescription(), shelterInfo.getAddressInfo(),
+                    shelterInfo.getPhoneNumber(), shelterInfo.getEmailAddress(), new ArrayList<>());
             userInfo.setUser(shelter);
             redirectAttributes.addFlashAttribute("message", "Account created - you are now logged in!");
             return new ModelAndView("redirect:/");
         } catch (Exception exception) {
-            return new ModelAndView("/shelter/register")
-                    .addObject("message", String.format("Could not create this shelter: %s", exception.getMessage()));
+            redirectAttributes.addFlashAttribute("shelterInfo", shelterInfo);
+            redirectAttributes.addFlashAttribute("message", "Could not create this shelter: "+exception.getMessage());
+            return new ModelAndView("redirect:/shelter/register");
         }
     }
 

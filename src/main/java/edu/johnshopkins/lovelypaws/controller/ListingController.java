@@ -26,7 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,7 +69,7 @@ public class ListingController {
 
     /** [SHELTERS] Directs shelters to the create-a-listing form; other users are redirected home. */
     @RequestMapping(path = "/create", method = RequestMethod.GET)
-    public ModelAndView create(RedirectAttributes redirectAttributes) {
+    public ModelAndView create(ListingInfo listingInfo, RedirectAttributes redirectAttributes) {
         if(userInfo.getUser() == null) {
             redirectAttributes.addFlashAttribute("message", "You must be logged in to do that.");
             return new ModelAndView("redirect:/");
@@ -79,7 +82,7 @@ public class ListingController {
         }
 
         return new ModelAndView("/listing/new")
-                .addObject("listingInfo", new ListingInfo())
+                .addObject("listingInfo", (listingInfo == null ? new ListingInfo() : listingInfo))
                 .addObject("animalTypes", animalTypeDao.findAll())
                 .addObject("ages", Arrays.asList(Age.values()))
                 .addObject("genders", Arrays.asList(Gender.values()));
@@ -99,7 +102,7 @@ public class ListingController {
             return new ModelAndView("redirect:/");
         }
 
-        if(uploadedFile != null) {
+        if(uploadedFile != null && uploadedFile.getSize() > 0) {
             try {
                 File tmp = File.createTempFile("lp-image", "");
                 FileUtils.copyInputStreamToFile(uploadedFile.getInputStream(), tmp);
@@ -109,7 +112,7 @@ public class ListingController {
             }
         }
 
-        Listing listing = listingBo.createListing((Shelter)(userInfo.getUser()),
+        ServerResponse<Listing> response = listingBo.createListing((Shelter) (userInfo.getUser()),
                 animalTypeDao.findById(listingInfo.getAnimalTypeId()),
                 listingInfo.getName(),
                 listingInfo.getDescription(),
@@ -118,7 +121,13 @@ public class ListingController {
                 listingInfo.getAge(),
                 listingInfo.getImageFile());
 
-        return new ModelAndView("redirect:/listing/view/"+listing.getId());
+        if(!response.isSuccess()) {
+            redirectAttributes.addFlashAttribute("message", "Failed to create the listing: "+response.getMessage());
+            redirectAttributes.addFlashAttribute("listingInfo", listingInfo);
+            return new ModelAndView("redirect:/listing/create");
+        } else {
+            return new ModelAndView("redirect:/listing/view/" + response.getResult().getId());
+        }
     }
 
     @RequestMapping(path = "/edit/{id}")
@@ -215,7 +224,12 @@ public class ListingController {
     @RequestMapping(path = "/image/{id}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] serveImage(HttpServletRequest request, @PathVariable("id") long id) {
         try {
-            return FileUtils.readFileToByteArray(listingDao.findById(id).getImageFile());
+            Listing listing = listingDao.findById(id);
+            if(listing == null || listing.getImageFile() == null) {
+                return FileUtils.readFileToByteArray(new File(request.getServletContext().getRealPath("img/default.png")));
+            } else {
+                return FileUtils.readFileToByteArray(listing.getImageFile());
+            }
         } catch(Exception exception) {
             log.error("Failed to serve image '{}' due to an exception.", exception);
             return null;

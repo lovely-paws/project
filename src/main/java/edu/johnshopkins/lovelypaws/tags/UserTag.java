@@ -61,13 +61,11 @@ public class UserTag extends SimpleTagSupport {
                     sb.append(String.format("<tr><td colspan='2'><a href='%s/user/delete/%d'>Delete User</a></td></tr>\n", baseUrl, user.getId()));
                     sb.append(String.format("<tr><td colspan='2'><a href='%s/user/edit/%d'>Edit User</a></td></tr>\n", baseUrl, user.getId()));
                     if(isShelter) {
-                        sb.append("<tr><td>Actions</td><td><ul>");
                         Shelter casted = (Shelter)user;
-                        sb.append(String.format("<li><a href='%s/shelter/%s/%d'>%s</a></li>",
+                        sb.append(String.format("<tr><td colspan='2'><a href='%s/shelter/%s/%d'>%s</a></td></tr>",
                                 baseUrl, casted.isApproved() ? "deny" : "approve", casted.getId(), casted.isApproved() ? "Disable New Listings" : "Enable New Listings"));
-                        sb.append(String.format("<li><a href='%s/shelter/requests/%d'>Review Adoption Requests</a></li>",
+                        sb.append(String.format("<tr><td colspan='2'><a href='%s/shelter/requests/%d'>Review Adoption Requests</a></td></tr>",
                                 baseUrl, casted.getId()));
-                        sb.append("</ul></td></tr>");
                     }
                     break;
                 case SHELTER:
