@@ -5,7 +5,7 @@
 		<c:choose>
 			<c:when test="${not empty userInfo.user}">
 				<li class="dropdown">
-					<button class="dropdown-button">My Account (${userInfo.user.username})</button>
+					<a href="${pageContext.request.contextPath}/account" class="dropdown-button">My Account (${userInfo.user.username})</a>
 					<ul class="dropdown-content">
 						<c:choose>
 							<c:when test="${userInfo.user.role eq 'END_USER'}">
