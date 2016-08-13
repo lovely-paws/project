@@ -12,10 +12,13 @@
 @caution-border: #dddd75;
 @bfs: 1em;
 
+a { text-decoration: none; color: @color2; }
+a:visited { color: @color1; }
+
 // ====================================================================================================================
 // Fundamental classes.
 // ====================================================================================================================
-.clearable { clear: both; }
+.clearable, .cleared { clear: both; }
 .b { font-weight: bolder; }
 .centered { text-align: center; }
 .listing-image {

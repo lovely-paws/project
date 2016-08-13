@@ -35,7 +35,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><spring:label path="age">Gender</spring:label></td>
+                    <td><spring:label path="age">Age</spring:label></td>
                     <td>
                         <spring:select path="age">
                             <spring:options itemValue="name" itemLabel="name" items="${ages}" />

@@ -59,7 +59,7 @@ public class Index {
         }
 
         try {
-            Mailer.send(LovelyPawsConstants.EMAIL_ADDRESS, contactInfo.getSender(), "New Contact Us Submission", contactInfo.getMessage());
+            Mailer.send(LovelyPawsConstants.EMAIL_ADDRESS, contactInfo.getSender(), "New Contact Us Submission from "+contactInfo.getSender(), contactInfo.getMessage());
             redirectAttributes.addFlashAttribute("message", "E-mail sent!");
             redirectAttributes.addFlashAttribute("contactInfo", new ContactInfo());
         } catch(Exception exception) {

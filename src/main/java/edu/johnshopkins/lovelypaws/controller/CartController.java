@@ -9,6 +9,7 @@ import edu.johnshopkins.lovelypaws.bo.AdoptionRequestBo;
 import edu.johnshopkins.lovelypaws.bo.Mailer;
 import edu.johnshopkins.lovelypaws.dao.ListingDao;
 import edu.johnshopkins.lovelypaws.entity.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,8 +36,8 @@ import java.util.Set;
 public class CartController {
     private static final Logger log = LoggerFactory.getLogger(CartController.class);
 
-    @Value("#{servletContext.contextPath}")
-    private String servletContextPath;
+    @Value("#{servletContext}")
+    private ServletContext servletContextPath;
 
     @Autowired
     private ListingDao listingDao;
@@ -95,7 +97,7 @@ public class CartController {
     }
 
     @RequestMapping(path = {"/apply"})
-    public ModelAndView apply(@ModelAttribute("applicationInfo")ApplicationInfo applicationInfo, RedirectAttributes redirectAttributes) {
+    public ModelAndView apply(@ModelAttribute("applicationInfo")ApplicationInfo applicationInfo, RedirectAttributes redirectAttributes, HttpServletRequest request) {
         if(!(userInfo.getUser() instanceof EndUser)) {
             redirectAttributes.addFlashAttribute("message", "You cannot checkout - you are not logged in or your account type does not support this operation.");
             return new ModelAndView("redirect:/cart");
@@ -130,7 +132,8 @@ public class CartController {
                     Mailer.send(shelterAddress,
                             LovelyPawsConstants.EMAIL_ADDRESS,
                             "New Adoption Request",
-                            createAdoptionRequestMessage((EndUser)(userInfo.getUser()), applicationInfo));
+                            createAdoptionRequestMessage((EndUser)(userInfo.getUser()), applicationInfo,
+                                    StringUtils.substringBefore(request.getRequestURL().toString(), "lovely-paws/")+"lovely-paws/"));
                 } catch(Exception exception) {
                     log.error("Failed to send a notification to {}",
                             shelterAddress, exception);
@@ -142,12 +145,12 @@ public class CartController {
         }
     }
 
-    private String createAdoptionRequestMessage(EndUser user, ApplicationInfo applicationInfo) {
+    private String createAdoptionRequestMessage(EndUser user, ApplicationInfo applicationInfo, String url) {
         return new StringBuilder()
                 .append(String.format("%s has applied to adopt one or more of the pets ", user.getName()))
                 .append(String.format("that you have listed on the Lovely Paws network.<br>"))
                 .append(String.format("Please visit the <a href='%s'>Lovely Paws site</a> to review the request and make a determination.",
-                        servletContextPath))
+                        url))
                 .toString();
     }
 }

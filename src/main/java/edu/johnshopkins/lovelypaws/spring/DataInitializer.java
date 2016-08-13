@@ -69,7 +69,7 @@ public class DataInitializer {
             shelter.setUsername("mutts");
             shelter.setPasswordSha512(DigestUtils.sha512Hex("mutts"));
             shelter.setApproved(true);
-            shelter.setEmailAddress("mutts@example.com");
+            shelter.setEmailAddress("mbarten1jhu@gmail.com");
             shelter.setName("MUTT'S");
             shelter.setDescription("Mutt's - A Place for Pups");
             shelter.setPhoneNumber("1-800-MUT-TPUP");

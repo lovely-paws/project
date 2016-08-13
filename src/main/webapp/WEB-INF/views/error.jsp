@@ -17,8 +17,15 @@
             provided to the system administrators.
         </p>
         <p>
-            Status Code <%= request.getAttribute("javax.servlet.error.status_code") %>
-            caused by <%= request.getAttribute("javax.servlet.error.exception_type") %>
+            <%
+                Object errorCode = request.getAttribute("javax.servlet.error.status_code");
+                Object type = request.getAttribute("javax.servlet.error.exception_type");
+                if(type == null) {
+                    out.write(String.format("Status Code [%s]", errorCode));
+                } else {
+                    out.write(String.format("Status Code [%s] caused by [%s].", errorCode, type));
+                }
+            %>
         </p>
         <%
             LoggerFactory.getLogger("ERROR PAGE").warn("An unhandled exception was reported back to the user.",
