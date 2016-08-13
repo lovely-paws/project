@@ -3,6 +3,7 @@ package edu.johnshopkins.lovelypaws.bo;
 import edu.johnshopkins.lovelypaws.UserInputUtils;
 import edu.johnshopkins.lovelypaws.beans.AddressInfo;
 import edu.johnshopkins.lovelypaws.dao.ShelterHibernateDao;
+import edu.johnshopkins.lovelypaws.dao.UserDao;
 import edu.johnshopkins.lovelypaws.entity.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +24,9 @@ public class ShelterBoImpl implements ShelterBo {
     @Autowired
     private ShelterHibernateDao shelterDao;
 
+    @Autowired
+    private UserDao userDao;
+
     public Shelter createShelter(String username, String password, String name, String description, AddressInfo addressInfo, String phoneNumber, String emailAddress,  List<AnimalType> animalTypes) {
         username = trimAndUpper(username);
         password = StringUtils.trimToNull(password);
@@ -36,7 +40,7 @@ public class ShelterBoImpl implements ShelterBo {
 
         if(username == null) {
             throw new IllegalArgumentException("Invalid username.");
-        } else if(shelterDao.findByName(username) != null) {
+        } else if(userDao.usernameExists(username)) {
             throw new IllegalArgumentException("Username is already in use.");
         }
 
